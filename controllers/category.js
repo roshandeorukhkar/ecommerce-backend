@@ -1,5 +1,5 @@
-const Category = require('../models/category');
-const Product = require('../models/product');
+const Category = require('../models/category/category');
+const Product = require('../models/product/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.categoryById = (req, res, next, id) => {

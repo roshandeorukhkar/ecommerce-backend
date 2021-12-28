@@ -10,6 +10,9 @@ const userSchema = new mongoose.Schema(
             required: true,
             maxlength: 32
         },
+        mobile:{
+            type: Number
+        },
         email: {
             type: String,
             trim: true,
@@ -20,18 +23,36 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        firstName: {
+            type: String,
+        },
+        lastName: {
+            type: String,
+        },
+        image: {
+            type: String,
+        },
+        status: {
+            type: Boolean,
+        },
         about: {
             type: String,
             trim: true
         },
         salt: String,
-        role: {
+        role_id: {
             type: Number,
             default: 0
         },
         history: {
             type: Array,
             default: []
+        },
+        date_added: {
+            type: Date,
+        },
+        date_modified: {
+            type: Date,
         }
     },
     { timestamps: true }

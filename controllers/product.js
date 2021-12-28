@@ -1,7 +1,7 @@
 const formidable = require('formidable');
 const _ = require('lodash');
 const fs = require('fs');
-const Product = require('../models/product');
+const Product = require('../models/product/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.productById = (req, res, next, id) => {
