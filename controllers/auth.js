@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/customer');
 const jwt = require('jsonwebtoken'); // to generate signed token
 const expressJwt = require('express-jwt'); // for authorization check
 const { errorHandler } = require('../helpers/dbErrorHandler');
@@ -48,12 +48,12 @@ exports.signin = (req, res) => {
     User.findOne({ email }, (err, user) => {
         if (err || !user) {
             return res.status(400).json({
-                error: 'User with that email does not exist. Please signup'
+                error: 'user with that email does not exist.'
             });
         }
         // if user is found make sure the email and password match
         // create authenticate method in user model
-        if (!user.authenticate(password)) {
+        if (!User.authenticate(password)) {
             return res.status(401).json({
                 error: 'Email and password dont match'
             });
@@ -88,14 +88,14 @@ exports.isAuth = (req, res, next) => {
     next();
 };
 
-exports.isAdmin = (req, res, next) => {
-    if (req.profile.role === 0) {
-        return res.status(403).json({
-            error: 'Admin resourse! Access denied'
-        });
-    }
-    next();
-};
+// exports.isAdmin = (req, res, next) => {
+//     if (req.profile.role === 0) {
+//         return res.status(403).json({
+//             error: 'Admin resourse! Access denied'
+//         });
+//     }
+//     next();
+// };
 
 /**
  * google login full
