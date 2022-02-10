@@ -4,7 +4,7 @@ const { create, productById, read, update, remove, list } = require('../controll
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
 
-// router.get('/man/:productId', read);
+ router.get('/manufacturer/:productId', read);
 // console.log("router------>",router);
 // router.post('/man/create1/:userId', requireSignin, isAuth, isAdmin, create1);
 
@@ -12,7 +12,7 @@ const { userById } = require('../controllers/user');
 
 router.get('/manufacturer', list);
 router.post('/manufacturer/create', create);
-// router.delete("/man/:productId/:userId", requireSignin, isAuth, isAdmin, remove);
+ router.delete("/manufacturer/:productId", remove);
 
 router.param('productId', productById);
 //router.param('userId', userById);
