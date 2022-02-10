@@ -22,7 +22,7 @@ exports.productById = (req, res, next, id) => {
 /* insert into db table here  */
 exports.create = (req, res) => {
     console.log(req.body)
-    const product = new Man(req.body);
+    const product = new Manufacturer(req.body);
    // let product = req.product;
     product.save((err, data) => {
         if (err) {
