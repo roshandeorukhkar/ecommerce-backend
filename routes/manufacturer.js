@@ -10,7 +10,7 @@ const { userById } = require('../controllers/user');
 
 // router.put("/man/:productId/:userId", requireSignin, isAuth, isAdmin, update);
 
-router.get('/manufacture', list);
+router.get('/manufacturer', list);
 // router.delete("/man/:productId/:userId", requireSignin, isAuth, isAdmin, remove);
 
 router.param('productId', productById);
