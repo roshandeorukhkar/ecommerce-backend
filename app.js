@@ -13,10 +13,14 @@ const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
 const braintreeRoutes = require('./routes/braintree');
 const orderRoutes = require('./routes/order');
-const userRoutes = require('./routes/user')
+const userRoutes = require('./routes/user');
+const storeRoutes = require('./routes/store');
 
 // app
 const app = express();
+
+//moment js
+app.locals.moment = require('moment');
 
 // db
 mongoose
@@ -41,6 +45,7 @@ app.use('/api', productRoutes);
 app.use('/api', braintreeRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', userRoutes);
+app.use('/api', storeRoutes);
 
 const port = process.env.PORT || 8000;
 

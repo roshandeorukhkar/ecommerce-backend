@@ -3,67 +3,81 @@ const mongoose = require("mongoose");
 const storeSchema = new mongoose.Schema(
     {
         storeName:{
-            require : true,
-            type : String
+            type : String,
+            required : [ true , 'Store name is required'],
+            trim : true,
         },
         userName :{
-            require : true,
-            type:String
+            type:String,
+            required : [ true , 'User Name is required' ],
+            trim : true
         },
-        firstName :{
-            type:String
-        },
-        lastName :{
-            type:String
+        ownerName :{
+            type:String,
+            required : [true , 'User name is required'],
+            trim : true,
         },
         email :{
-            require : true,
+            required : [true, 'Email is required'],
             trim : true ,
-            unique : true,
-            type:String
+            index : {
+                unique : true,
+            },
+            type: String
         },
         mobile :{
-            unique : true,
-            require : true,
+            // unique : true,
+            required : [true, 'Mobile no is required' ],
             maxlength : 10 ,
-            type:Number
+            type:Number,
+            trim : true
         },
         password :{
-            require : true,
-            type:String
+            required : [true, 'Password is required'],
+            type:String,
+            trim :true
         },
-        salt :{
-            require : true,
-            type:String
-        },
-        addressId :{
-            require : true,
-            type:Number
-        },
-        ip :{
-            require : true,
-            type:Number
+        address :{
+            required : [true ,'Address is required'],
+            type:String,
+            trim : true
         },
         status :{
-            require : true,
-            type:Boolean
+            required : true,
+            type:Boolean ,
+            default : true,
         },
         approved :{
-            require : true,
-            type:Boolean
+            required : true,
+            type:Boolean,
+            default : 1,
+            ref : "1 is approved & 0-disapproved"
         },
         tokan :{
-            require : true,
+            required : true,
             type:String
         },
-        image :{
-            require : true,
-            type:String
+        isDelete :{
+            required : true,
+            type : Boolean,
+            default : 0,
+            ref : "1 is deleted & 0 is not deleted",
         },
-        aboutUs :{
-            require : true,
-            type:String
+        createdDate :{
+            type : Date,
+            default : Date.now
         }
     }
-)
-module.exports = mongoose.model("Store" ,storeSchema)
+);
+
+
+
+module.exports = mongoose.model("Store" ,storeSchema);
+
+storeSchema.path('email').validate(
+    async email =>{
+        const emailCount = await mongoose.models.Store.countDocuments({
+            email
+        })
+        return !emailCount
+    }, 'Email already exists');
