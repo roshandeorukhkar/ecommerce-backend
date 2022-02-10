@@ -2,7 +2,7 @@
 // const Pay = require('../models/pay');
 const Manufacturer = require('../models/product/manufacturer');
 // const Product = require('../models/product');
-// const { errorHandler } = require('../helpers/dbErrorHandler');
+ const { errorHandler } = require('../helpers/dbErrorHandler');
 
 
 exports.productById = (req, res, next, id) => {
