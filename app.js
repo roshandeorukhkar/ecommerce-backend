@@ -15,7 +15,7 @@ const braintreeRoutes = require('./routes/braintree');
 const orderRoutes = require('./routes/order');
 const userRoutes = require('./routes/user');
 const storeRoutes = require('./routes/store');
-const manufacturersRoutes = require('./routes/manufacturer');
+const manufacturerRoutes = require('./routes/manufacturer');
 
 // app
 const app = express();
@@ -45,7 +45,7 @@ app.use('/api', categoryRoutes);
 app.use('/api', productRoutes);
 app.use('/api', braintreeRoutes);
 app.use('/api', orderRoutes);
-app.use('/api', manufacturersRoutes);
+app.use('/api', manufacturerRoutes);
 app.use('/api', userRoutes);
 app.use('/api', storeRoutes);
 
