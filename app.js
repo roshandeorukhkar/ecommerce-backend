@@ -15,6 +15,7 @@ const braintreeRoutes = require('./routes/braintree');
 const orderRoutes = require('./routes/order');
 const userRoutes = require('./routes/user');
 const storeRoutes = require('./routes/store');
+const manRoutes = require('./routes/man');
 
 // app
 const app = express();
@@ -44,6 +45,7 @@ app.use('/api', categoryRoutes);
 app.use('/api', productRoutes);
 app.use('/api', braintreeRoutes);
 app.use('/api', orderRoutes);
+app.use('/api', manRoutes);
 app.use('/api', userRoutes);
 app.use('/api', storeRoutes);
 
