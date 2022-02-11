@@ -8,7 +8,7 @@ const { userById } = require('../controllers/user');
 // console.log("router------>",router);
 // router.post('/man/create1/:userId', requireSignin, isAuth, isAdmin, create1);
 
-// router.put("/man/:productId/:userId", requireSignin, isAuth, isAdmin, update);
+router.put("/manufacturer/:productId", update);
 
 router.get('/manufacturer', list);
 router.post('/manufacturer/create', create);
