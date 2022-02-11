@@ -41,7 +41,7 @@ exports.read = (req, res) => {
 
 exports.update = (req, res) => {
     let product = req.product;
-    product.update((err, result) => {
+    product.save((err, result) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
