@@ -1,20 +1,18 @@
-// const Category = require('../models/category');
-// const Pay = require('../models/pay');
+
 const Manufacturer = require('../models/product/manufacturer');
-// const Product = require('../models/product');
  const { errorHandler } = require('../helpers/dbErrorHandler');
 
 
 exports.productById = (req, res, next, id) => {
     Manufacturer.findById(id)
-        .populate('category')
-        .exec((err, product) => {
-            if (err || !product) {
+        //.populate('category')
+        .exec((err, manufacturer) => {
+            if (err || !manufacturer) {
                 return res.status(400).json({
-                    error: 'Product not found'
+                    error: 'manufacturer not found'
                 });
             }
-            req.product = product;
+            req.manufacturer = manufacturer;
             next();
         });
 };
@@ -22,8 +20,8 @@ exports.productById = (req, res, next, id) => {
 /* insert into db table here  */
 exports.create = (req, res) => {
     console.log(req.body)
-    const product = new Manufacturer(req.body);
-    product.save((err, data) => {
+    const manufacturer = new Manufacturer(req.body);
+    manufacturer.save((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
@@ -35,27 +33,45 @@ exports.create = (req, res) => {
 
 
 exports.read = (req, res) => {
-    return res.json(req.product);
+    return res.json(req.manufacturer);
 };
 
 
+// exports.update = (req, res) => {
+//     let manufacturer = req.manufacturer;
+//    manufacturer.save((err, result) => {
+//          console.log(manufacturer);
+//         if (err) {
+//             return res.status(400).json({
+//                 error: errorHandler(err)
+//             });
+//         }
+//         res.json(
+//             {
+           
+//             message: 'Update Manifactuer table'
+//         });
+//     });
+// };
+
 exports.update = (req, res) => {
-    let product = req.product;
-    product.save((err, result) => {
+
+    const manufacturer = req.manufacturer;
+    manufacturer.manufacturerName = req.body.manufacturerName;
+    manufacturer.description = req.body.description;
+    manufacturer.save((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
             });
         }
-        res.json({
-            message: 'Update Manifactuer table'
-        });
+        res.json(data);
     });
 };
 
 exports.remove = (req, res) => {
-    let product = req.product;
-    product.remove((err, deletedManf) => {
+    let manufacturer = req.manufacturer;
+    manufacturer.remove((err, deletedManf) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
@@ -78,12 +94,12 @@ exports.list = (req, res) => {
         .populate('category')
         .sort([[sortBy, order]])
         .limit(limit)
-        .exec((err, products) => {
+        .exec((err, manufacturer) => {
             if (err) {
                 return res.status(400).json({
-                    error: 'Products not found'
+                    error: 'manufacturer not found'
                 });
             }
-            res.json(products);
+            res.json(manufacturer);
         });
 };
