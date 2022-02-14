@@ -14,7 +14,7 @@ const storeSchema = new mongoose.Schema(
         },
         ownerName :{
             type:String,
-            required : [true , 'User name is required'],
+            required : [true , 'Owner name is required'],
             trim : true,
         },
         email :{
@@ -28,8 +28,9 @@ const storeSchema = new mongoose.Schema(
         mobile :{
             // unique : true,
             required : [true, 'Mobile no is required' ],
-            maxlength : 10 ,
-            type:Number,
+            // maxlength : 10 ,
+            type:String,
+            // match: /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/,
             trim : true
         },
         password :{

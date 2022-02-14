@@ -16,6 +16,7 @@ const orderRoutes = require('./routes/order');
 const userRoutes = require('./routes/user');
 const storeRoutes = require('./routes/store');
 const manufacturerRoutes = require('./routes/manufacturer');
+const specificationRoutes = require('./routes/specification');
 
 // app
 const app = express();
@@ -48,6 +49,7 @@ app.use('/api', orderRoutes);
 app.use('/api', manufacturerRoutes);
 app.use('/api', userRoutes);
 app.use('/api', storeRoutes);
+app.use('/api', specificationRoutes);
 
 const port = process.env.PORT || 8000;
 
