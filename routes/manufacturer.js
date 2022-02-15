@@ -10,7 +10,7 @@ router.post('/manufacturer/create', create);
 router.delete("/manufacturer/:productId", remove);
 router.put("/manufacturer/:productId", update);
 
-router.put("/manufacturer/:productId", updateDelete);
+router.post("/manufacturer/delete/:productId", updateDelete);
 
 
 router.param('productId', productById);

@@ -9,7 +9,7 @@ const manufacturerSchema = new mongoose.Schema(
             maxlength: 32,
             unique: true
         },
-        date_added :{
+         date_added :{
             require : true,
             type : Date 
         },
@@ -18,6 +18,7 @@ const manufacturerSchema = new mongoose.Schema(
             type : Date
         },
         deletedAt :{
+            require : true,
             type : Date
         },
         description: {
