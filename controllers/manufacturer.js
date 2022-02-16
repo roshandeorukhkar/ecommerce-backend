@@ -36,24 +36,6 @@ exports.read = (req, res) => {
     return res.json(req.manufacturer);
 };
 
-
-// exports.update = (req, res) => {
-//     let manufacturer = req.manufacturer;
-//    manufacturer.save((err, result) => {
-//          console.log(manufacturer);
-//         if (err) {
-//             return res.status(400).json({
-//                 error: errorHandler(err)
-//             });
-//         }
-//         res.json(
-//             {
-           
-//             message: 'Update Manifactuer table'
-//         });
-//     });
-// };
-
 exports.update = (req, res) => {
 
     const manufacturer = req.manufacturer;

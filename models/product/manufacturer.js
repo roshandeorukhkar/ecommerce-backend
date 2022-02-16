@@ -3,11 +3,9 @@ const mongoose = require("mongoose");
 const manufacturerSchema = new mongoose.Schema(
     {
         manufacturerName: {
-            type: String,
-            trim: true,
-            required: true,
-            maxlength: 32,
-            unique: true
+            unique : true ,
+            require : true,
+            type : String
         },
          date_added :{
             require : true,
@@ -23,11 +21,10 @@ const manufacturerSchema = new mongoose.Schema(
         },
         description: {
             type: String,
-            trim: true,
-            required: true
         }
     },
     { timestamps: true }
+    
 );
 
 module.exports = mongoose.model("Manufacturer", manufacturerSchema);
