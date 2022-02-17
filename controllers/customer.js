@@ -136,3 +136,7 @@ exports.list = (req, res) => {
             res.json(customer);
         });
 };
+
+exports.reads = (req, res) => {
+    return res.json(req.User);
+};

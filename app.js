@@ -18,6 +18,8 @@ const storeRoutes = require('./routes/store');
 const manufacturerRoutes = require('./routes/manufacturer');
 const specificationRoutes = require('./routes/specification');
 
+const custRoutes = require('./routes/cust');
+
 // app
 const app = express();
 
@@ -47,6 +49,7 @@ app.use('/api', productRoutes);
 app.use('/api', braintreeRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', manufacturerRoutes);
+app.use('/api', custRoutes);
 app.use('/api', userRoutes);
 app.use('/api', storeRoutes);
 app.use('/api', specificationRoutes);
