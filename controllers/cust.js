@@ -53,7 +53,7 @@ exports.update = (req, res) => {
 exports.updateDelete = (req, res) => {
 
    const manufacturer = req.manufacturer;
-   manufacturer.deletedAt = req.body.manufacturerName;
+   manufacturer.deletedAt = req.body.name;
    manufacturer.save((err, data) => {
        if (err) {
            return res.status(400).json({

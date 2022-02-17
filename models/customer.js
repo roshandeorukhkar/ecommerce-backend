@@ -53,6 +53,9 @@ const userSchema = new mongoose.Schema(
         },
         date_modified: {
             type: Date,
+        },
+        deletedAt: {
+            type: Date,
         }
     },
     { timestamps: true }
