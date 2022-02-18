@@ -20,9 +20,9 @@ const storeSchema = new mongoose.Schema(
         email :{
             required : [true, 'Email is required'],
             trim : true ,
-            index : {
-                unique : true,
-            },
+            // index : {
+            //     unique : true,
+            // },
             type: String
         },
         mobile :{
@@ -75,10 +75,10 @@ const storeSchema = new mongoose.Schema(
 
 module.exports = mongoose.model("Store" ,storeSchema);
 
-storeSchema.path('email').validate(
-    async email =>{
-        const emailCount = await mongoose.models.Store.countDocuments({
-            email
-        })
-        return !emailCount
-    }, 'Email already exists');
+// storeSchema.path('email').validate(
+//     async email =>{
+//         const emailCount = await mongoose.models.Store.countDocuments({
+//             email
+//         })
+//         return !emailCount
+//     }, 'Email already exists');
