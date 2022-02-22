@@ -14,4 +14,11 @@ router.get("/getStoreDataById/:storeId",getStoreDataById);
 const { deleteStoreData } = require("../controllers/store");
 router.get("/deleteStoreData/:storeId",deleteStoreData); 
 
+const {
+    addUserRole
+    } = require("../controllers/store");
+
+router.post("/addUserRole", addUserRole);
+
+
 module.exports = router;

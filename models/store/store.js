@@ -59,7 +59,7 @@ const storeSchema = new mongoose.Schema(
             type:String
         },
         isDelete :{
-            required : true,
+            required : false,
             type : Boolean,
             default : 0,
             ref : "1 is deleted & 0 is not deleted",

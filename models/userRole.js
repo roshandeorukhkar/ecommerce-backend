@@ -6,25 +6,33 @@ const userRoleSchema = new mongoose.Schema(
         roleId :{
             type : Number
         },
-        name :{
+        roleName :{
             type : String ,
-            required : true
+            required :  [true, 'Role name is required']
         },
-        access_moduleId :{
+        accessModuleId :{
             type : Number,
-            required : true
+            required :  [true, 'Please select module']
         },
-        parent_RoleId : {
+        AssingTo : {
             type : Number,
-            required : true
+            required :  [true, 'User Id is required']
         },
-        status : {
+        status :{
+            type:Boolean ,
+            required : true,
+            default : true,
+            ref : "1 is active & 0 is not diactive",
+        },
+        isDelete :{
+            required : true,
             type : Boolean,
-            required : true
+            default : 0,
+            ref : "1 is deleted & 0 is not deleted",
         },
-        date_added :{
+        createdDate :{
             type : Date ,
-            required : true
+            default : Date.now
         }
     }
 );
