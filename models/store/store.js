@@ -27,11 +27,18 @@ const storeSchema = new mongoose.Schema(
         },
         mobile :{
             // unique : true,
-            required : [true, 'Mobile no is required' ],
-            // maxlength : 10 ,
+            // required : [true, 'Mobile no is required' ],
+            // maxlength : [10 , "Maximum enter 10 digit"] ,
             type:String,
             // match: /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/,
-            trim : true
+            // trim : true,
+            validate: {
+                validator: function(v) {
+                    var re = /^\d{10}$/;
+                    return (!v || !v.trim().length) || re.test(v)
+                },
+                message: props => `${props.value} is not a valid phone number!`
+              },
         },
         password :{
             required : [true, 'Password is required'],
@@ -82,3 +89,9 @@ module.exports = mongoose.model("Store" ,storeSchema);
 //         })
 //         return !emailCount
 //     }, 'Email already exists');
+
+// storeSchema.path("mobile").validate(
+//     async mobile =>{
+//         return /\d{3}-\d{3}-\d{4}/.test(v);
+//     }, 
+// )
