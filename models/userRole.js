@@ -11,11 +11,11 @@ const userRoleSchema = new mongoose.Schema(
             required :  [true, 'Role name is required']
         },
         accessModuleId :{
-            type : Number,
+            type : String,
             required :  [true, 'Please select module']
         },
-        AssingTo : {
-            type : Number,
+        assingTo : {
+            type : String,
             required :  [true, 'User Id is required']
         },
         status :{
