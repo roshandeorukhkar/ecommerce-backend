@@ -97,4 +97,15 @@ exports.list = (req, res) => {
      
         });
 };
+exports.storeList = async (req, res) => {
+    Manufacturer.find(function (err, data) {
+      if (err) {
+        return done(err);
+      }
+      return res.json({
+        status: true,
+        result: data,
+      });
+    });
+  };
 
