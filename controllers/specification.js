@@ -37,21 +37,38 @@ exports.create = (req, res) => {
 exports.read = (req, res) => {
     return res.json(req.product);
 };
-
-
 exports.update = (req, res) => {
-    let product = req.product;
-    product.save((err, result) => {
+
+    const product = req.product;
+    product.manufacturerName = req.body.manufacturerName;
+    product.specification_type = req.body.specification_type;
+    product.description = req.body.description;
+    product.save((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
             });
         }
-        res.json({
-            message: 'Update Manifactuer table'
-        });
+        res.json(data);
     });
 };
+/*
+exports.update = (req, res) => {
+    let product = req.product;
+    product.save((err, result) => {
+        console.log(res.json);
+        if (err) {
+            console.log("400000");
+            return res.status(400).json({
+                error: errorHandler(err)
+               
+            });
+        }
+        res.json({
+            message: 'Update specification table'
+        });
+    });
+}; */
 
 exports.remove = (req, res) => {
     let product = req.product;

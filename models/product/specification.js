@@ -3,21 +3,30 @@ const mongoose = require("mongoose");
 const specificationSchema = new mongoose.Schema(
     {
         manufacturerName: {
-            type: String,
-            trim: true,
-            required: true,
-            maxlength: 32,
-            unique: true
+            unique : true ,
+            require : true,
+            type : String
+        },
+         date_added :{
+            require : true,
+            type : Date 
         },
         specification_type: {
             type: String,
             trim: true,
             required: true
         },
+        date_modified :{
+            require : true,
+            type : Date
+        },
+        deletedAt :{
+            require : true,
+            type : Date,
+        },
         description: {
-            type: String,
-            trim: true,
-            required: true
+            type: String
+            
         }
     },
     { timestamps: true }

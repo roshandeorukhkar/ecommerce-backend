@@ -12,7 +12,7 @@ router.put("/specification/:productId", update);
 
 router.get('/specification', list);
 router.post('/specification/create', create);
- router.delete("/specification/:productId", remove);
+router.delete("/specification/:productId", remove);
 
 router.param('productId', productById);
 //router.param('userId', userById);
