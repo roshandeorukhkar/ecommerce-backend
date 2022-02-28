@@ -1,18 +1,16 @@
-
-//const Manufacturer = require('../models/customer');
-const Customer = require('../models/customer/customer');
+const User = require('../models/store/store');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
-exports.productById = (req, res, next, id) => {
-    Customer.findById(id)
-       //.populate('category')
-       .exec((err, customer) => {
-           if (err || !customer) {
+
+exports.userById = (req, res, next, id) => {
+    User.findById(id)
+       .exec((err, user) => {
+           if (err || !user) {
                return res.status(400).json({
-                   error: 'customer not found'
+                   error: 'user not found'
                });
            }
-           req.customer = customer;
+           req.user = user;
            next();
        });
 };
@@ -20,8 +18,8 @@ exports.productById = (req, res, next, id) => {
 /* insert into db table here  */
 exports.create = (req, res) => {
    console.log(req.body)
-   const customer = new Customer(req.body);
-   customer.save((err, data) => {
+   const user = new User(req.body);
+   user.save((err, data) => {
        if (err) {
            return res.status(400).json({
                error: errorHandler(err)
@@ -33,15 +31,16 @@ exports.create = (req, res) => {
 
 
 exports.read = (req, res) => {
-   return res.json(req.customer);
+   return res.json(req.user);
 };
 
 exports.update = (req, res) => {
 
-   const customer = req.customer;
-   customer.name = req.body.name;
-   customer.email = req.body.email;
-   customer.save((err, data) => {
+   const user = req.user;
+   user.ownerName = req.body.ownerName;
+   user.email = req.body.email;
+   user.address = req.body.address;
+   user.save((err, data) => {
        if (err) {
            return res.status(400).json({
                error: errorHandler(err)
@@ -52,10 +51,9 @@ exports.update = (req, res) => {
 };
 
 exports.updateDelete = (req, res) => {
-
-   const customer = req.customer;
-   customer.deletedAt = req.body.name;
-   customer.save((err, data) => {
+   const user = req.user;
+   user.deletedAt = req.body.manufacturerName;
+   user.save((err, data) => {
        if (err) {
            return res.status(400).json({
                error: errorHandler(err)
@@ -67,15 +65,15 @@ exports.updateDelete = (req, res) => {
 
 
 exports.remove = (req, res) => {
-   let customer = req.customer;
-   customer.remove((err, deletedManf) => {
+   let user = req.user;
+   user.remove((err, deleted) => {
        if (err) {
            return res.status(400).json({
                error: errorHandler(err)
            });
        }
        res.json({
-           message: 'Delet customer table'
+           message: 'Delet Manifactuer table'
        });
    });
 };
@@ -84,19 +82,17 @@ exports.list = (req, res) => {
        
    let order = req.query.order ? req.query.order : 'asc';
    let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
-
-   Customer.find()
-       .select('-photo')
-       .populate('category')
+   
+   User.find()
        .sort([[sortBy, order]])
-       .limit(limit)
-       .exec((err, customer) => {
+       .exec((err, user) => {
            if (err) {
                return res.status(400).json({
-                   error: 'customer not found'
+                   error: 'user not found'
                });
            }
-           res.json(customer);
+           res.json(user);
+    
        });
 };
+

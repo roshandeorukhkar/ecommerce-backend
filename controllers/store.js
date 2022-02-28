@@ -139,50 +139,15 @@ exports.deleteStoreData = async (req , res) => {
 }
 
 
-exports.addUserRole = async (req ,res) =>{
-  try{
-      const {roleName ,accessModule} = req.body;
-      if(!roleName){
-         return res.status(400).json({error : "Please Enter role name"});
-      }
-      var addUserRole = new UserRoleinSchema({
-          roleName : roleName  ,
-          accessModuleId : accessModule,
-          AssingTo : 1,
-          status :true,
-      });
-      const userRole = await addUserRole.save(function(err,result){
-          if(!result._id){
-            return  res.status(400).json("Please enter valid data");
-          }else{
-              UserRoleinSchema.find((err_result,resultlist) => {
-                  console.log("resultlist",resultlist);
-                  if(err_result)
-                  return res.status(400).json({error:"Something is wrong"});
-                  else{
-                      return res.json({list:resultlist,
-                                      data : "Your data inserted successfully",
-                                      error : ""
-                                      });
-                      // res.json();
-                  }    
-              });
-               
-          }
-      });
-  }catch(err){
-      console.log(err);
-  }
-}
-
 exports.addUserRole  = async (req,res) =>{
-  if (!(req.body.storeId)  ) {
+  if (!(req.body.userRoleId)  ) {
+  console.log("-------","addUserRole");
     try {
-      const {roleName ,accessModule} = req.body;
+      const {roleName ,accessModuleId ,assingTo} = req.body;
       var addUserRole = new UserRoleinSchema({
         roleName : roleName  ,
-        accessModuleId : accessModule,
-        AssingTo : 1,
+        accessModuleId : accessModuleId,
+        assingTo : assingTo,
         status :true,
     });
       const result_ = await addUserRole.save();
@@ -199,17 +164,17 @@ exports.addUserRole  = async (req,res) =>{
       });
     }
 }else{    
+  console.log("addUserRole","addUserRole");
     try{
-      const {roleName ,accessModule} = req.body;
+      const {roleName ,accessModuleId ,assingTo ,userRoleId} = req.body;
       var addUserRole = {
         roleName : roleName  ,
-        accessModuleId : accessModule,
-        AssingTo : 1,
+        accessModuleId : accessModuleId,
+        assingTo : assingTo,
         status :true,
       };
-      const filter = { _id : roleId}
+      const filter = { _id : userRoleId}
       const result_ = await UserRoleinSchema.findOneAndUpdate(filter,addUserRole ,{new: true, runValidators:true });
-
         return res.json({
             status: true,
             message: "User role updated Successfully",
@@ -226,7 +191,7 @@ exports.addUserRole  = async (req,res) =>{
   }
 }
 
-exports.userRoleList = async (req, res) => {
+exports.getUserRoleListData = async (req, res) => {
   UserRoleinSchema.find(function (err, data) {
     if (err) {
       return done(err);
@@ -239,7 +204,7 @@ exports.userRoleList = async (req, res) => {
 };
 
 
-exports.getUserRoleDataById = async (req, res) => {
+exports.getUserRoleByIdData = async (req, res) => {
   try {
     const roleId = req.params.roleId;
     const result = await UserRoleinSchema.findById(roleId);
@@ -251,13 +216,13 @@ exports.getUserRoleDataById = async (req, res) => {
   }
 };
 
-exports.deleteRoleData = async (req , res) => {
+exports.deleteUserRole = async (req , res) => {
   try{
     var userRoleDetails = {
       isDelete : true
     };
-    const filter = { _id : req.params.roleId}
-    const result_ = await StoreSchema.findOneAndUpdate(filter,userRoleDetails );
+    const filter = { _id : req.params.userRoleId}
+    const result_ = await UserRoleinSchema.findOneAndUpdate(filter,userRoleDetails );
     console.log(result_ , "result_")
       return res.json({
           status: true,

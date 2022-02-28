@@ -18,7 +18,15 @@ const {
     addUserRole
     } = require("../controllers/store");
 
-router.post("/addUserRole", addUserRole);
+router.post("/addUserRoleData", addUserRole);
 
+const { getUserRoleListData } = require("../controllers/store");
+router.get("/getUserRoleListData" , getUserRoleListData);
+
+const { getUserRoleByIdData } = require("../controllers/store");
+router.get("/getUserRoleByIdData/:roleId" ,getUserRoleByIdData);
+
+const { deleteUserRole } = require("../controllers/store");
+router.get("/deleteUserRoleData/:userRoleId" ,deleteUserRole);
 
 module.exports = router;
