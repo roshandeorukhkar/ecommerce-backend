@@ -65,6 +65,32 @@ exports.updateDelete = (req, res) => {
     });
 };
 
+exports.updateStatus = (req, res) => {
+    const manufacturer = req.manufacturer;
+    manufacturer.status = req.body.status;
+    manufacturer.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
+exports.changeStatus = (req, res) => {
+    const manufacturer = req.manufacturer;
+    manufacturer.status = req.body.status;
+    manufacturer.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
 
 exports.remove = (req, res) => {
     let manufacturer = req.manufacturer;
@@ -75,7 +101,7 @@ exports.remove = (req, res) => {
             });
         }
         res.json({
-            message: 'Delet Manifactuer table'
+            message: 'Delet Customer table'
         });
     });
 };

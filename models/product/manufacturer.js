@@ -19,6 +19,10 @@ const manufacturerSchema = new mongoose.Schema(
             require : true,
             type : Date
         },
+        status: {
+            type: Number,
+            default: 1
+        },
         description: {
             type: String,
         }

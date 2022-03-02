@@ -65,6 +65,34 @@ exports.updateDelete = (req, res) => {
    });
 };
 
+exports.updateStatus = (req, res) => {
+
+    const customer = req.customer;
+    customer.status = req.body.status;
+    customer.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+ };
+
+ exports.updateStatusCheck = (req, res) => {
+
+    const customer = req.customer;
+    customer.status = req.body.status;
+    customer.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+ };
+
 
 exports.remove = (req, res) => {
    let customer = req.customer;

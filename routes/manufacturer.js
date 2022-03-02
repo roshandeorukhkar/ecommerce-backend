@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { create, productById, read, update, remove, list, updateDelete } = require('../controllers/manufacturer');
+const { create, productById, read, update, remove, list, updateDelete, updateStatus, changeStatus } = require('../controllers/manufacturer');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
 const { maniValidator } = require("../validator");
@@ -15,6 +15,10 @@ const { storeList } = require("../controllers/manufacturer");
 router.get("/getmanufacturer", storeList);
 
 router.post("/manufacturer/delete/:productId", updateDelete);
+
+router.post("/manufacturer/status/:productId", updateStatus);
+
+router.post("/manufacturer/statusChange/:productId", changeStatus);
 
 
 router.param('productId', productById);
