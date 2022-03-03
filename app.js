@@ -19,8 +19,6 @@ const manufacturerRoutes = require('./routes/manufacturer');
 const specificationRoutes = require('./routes/specification');
 const custRoutes = require('./routes/cust');
 
-const storeTestRoutes = require('./routes/storeTest');
-
 const userManagementRoutes = require('./routes/userManagement');
 
 // app
@@ -56,7 +54,6 @@ app.use('/api', userManagementRoutes);
 app.use('/api', custRoutes);
 app.use('/api', userRoutes);
 app.use('/api', storeRoutes);
-app.use('/api', storeTestRoutes);
 app.use('/api', specificationRoutes);
 
 const port = process.env.PORT || 8000;
