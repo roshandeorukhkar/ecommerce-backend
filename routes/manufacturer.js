@@ -11,8 +11,6 @@ router.post('/manufacturer/create', maniValidator, create);
 router.delete("/manufacturer/:productId", remove);
 router.put("/manufacturer/:productId", update);
 
-const { storeList } = require("../controllers/manufacturer");
-router.get("/getmanufacturer", storeList);
 
 router.post("/manufacturer/delete/:productId", updateDelete);
 
