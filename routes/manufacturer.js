@@ -9,7 +9,7 @@ router.get('/manufacturer/:productId', read);
 router.get('/manufacturer', list);
 router.post('/manufacturer/create', maniValidator, create);
 router.delete("/manufacturer/:productId", remove);
-router.put("/manufacturer/:productId", update);
+router.put("/manufacturer/:productId", maniValidator, update);
 
 
 router.post("/manufacturer/delete/:productId", updateDelete);
