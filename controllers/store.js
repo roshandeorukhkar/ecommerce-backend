@@ -1,6 +1,7 @@
 const { json } = require("body-parser");
 const StoreSchema = require("../models/store/store");
 const UserRoleinSchema = require('../models/userRole');
+const User = require("../models/store/storeUser");
 
 // Get moongose error
 
@@ -15,84 +16,73 @@ const errorFormat = (e) => {
   return errors;
 };
 
-// save store Api
-
 exports.addStoreData = async (req, res) => {
-  if (!(req.body.storeId)  ) {
-    try {
-      const {
-        storeName,
-        ownerName,
-        address,
-        userName,
-        mobile,
-        password,
-        email
-      } = req.body;
-      var storeDetails = new StoreSchema({
-        storeName: storeName,
-        userName: userName,
-        ownerName: ownerName,
-        email: email,
-        mobile: mobile,
-        password: password,
-        address: address,
-        tokan: "ttttttt",
-      });
-      const result_ = await storeDetails.save();
-      return res.json({
-        status: true,
-        message: "Store added Successfully",
-        result: result_,
-      });
-    } catch (e) {
-      return res.json({
-        errors: errorFormat(e.message),
-        status: false,
-        message: "Something went wrong",
-      });
-    }
-}else{    
-    try{
-    const {
-        storeName,
-        ownerName,
-        address,
-        userName,
-        mobile,
-        password,
-        email,
-        storeId
-      } = req.body;
-      var storeDetails = {
-        storeName: storeName,
-        userName: userName,
-        ownerName: ownerName,
-        email: email,
-        mobile: mobile,
-        password: password,
-        address: address,
-        tokan: "ttttttt",
-      };
-      const filter = { _id : storeId}
-      const result_ = await StoreSchema.findOneAndUpdate(filter,storeDetails ,{new: true, runValidators:true });
+  //console.log(" gauravvvvs",req.body);
+  if (!(req.body.storeId)  ) {  
+  try {
+    const { storeName, ownerName, email, password, address, userId, mobile } = req.body;
+    var storeDetails = new StoreSchema({
+      storeName: storeName,
+      ownerName: ownerName,
+      address:address,
+      userId:userId,
+      mobile:mobile,
+    });
+   
+    const result_ = await storeDetails.save();
 
-        return res.json({
-            status: true,
-            message: "Store updated Successfully",
-            result: result_,
-          });
-    }catch(e){
-        return res.json({
-            errors: errorFormat(e.message),
-            status: false,
-            message: "Something went wrong for update",
-          });
-    }
+    var userDetails = new User({
+      password: password,
+      email: email,
+      storeId:result_._id
+    });
+   
+    const result1 = await userDetails.save();
+    return res.json({
+      status: true,
+      message: "Store added Successfully",
+      result: result_,
+      result1: result1,
+    });
     
+  } catch (e) {
+    return res.json({
+      errors: errorFormat(e.message),
+      status: false,
+      message: "Something went wrong.....",
+    });
   }
-};
+}
+else{    
+  try{
+  const {
+      storeName,
+      ownerName,
+      storeId
+    } = req.body;
+    var storeDetails = {
+      storeName: storeName,
+      ownerName: ownerName,
+    };
+    const filter = { _id : storeId}
+    const result_ = await storeTestSchema.findOneAndUpdate(filter,storeDetails ,{new: true, runValidators:true });
 
+      return res.json({
+          status: true,
+          message: "Store updated Successfully",
+          result: result_,
+        });
+  }catch(e){
+      return res.json({
+          errors: errorFormat(e.message),
+          status: false,
+          message: "Something went wrong for update",
+        });
+  }
+  
+}
+};
+// save store Api
 
 exports.storeList = async (req, res) => {
   StoreSchema.find(function (err, data) {
