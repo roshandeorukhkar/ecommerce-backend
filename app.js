@@ -16,7 +16,7 @@ const orderRoutes = require('./routes/order');
 const userRoutes = require('./routes/user');
 const storeRoutes = require('./routes/store');
 
- const storeTestRoutes = require('./routes/storeTest');
+ //const storeTestRoutes = require('./routes/storeTest');
 
 const manufacturerRoutes = require('./routes/manufacturer');
 const attributeRotes = require('./routes/attribute');
@@ -59,7 +59,7 @@ app.use('/api', attributeRotes);
 app.use('/api', custRoutes);
 app.use('/api', userRoutes);
 app.use('/api', storeRoutes);
- app.use('/api', storeTestRoutes);
+// app.use('/api', storeTestRoutes);
 app.use('/api', specificationRoutes);
 
 const port = process.env.PORT || 8000;
