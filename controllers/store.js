@@ -1,7 +1,6 @@
 const { json } = require("body-parser");
 const StoreSchema = require("../models/store/store");
 const UserRoleinSchema = require('../models/userRole');
-const User = require("../models/store/storeUser");
 
 // Get moongose error
 
@@ -20,40 +19,40 @@ const errorFormat = (e) => {
 
 exports.addStoreData = async (req, res) => {
   if (!(req.body.storeId)  ) {
-       
     try {
-      const { storeName, ownerName, email } = req.body;
-      var storeDetails = new storeSchema({
+      const {
+        storeName,
+        ownerName,
+        address,
+        userName,
+        mobile,
+        password,
+        email
+      } = req.body;
+      var storeDetails = new StoreSchema({
         storeName: storeName,
+        userName: userName,
         ownerName: ownerName,
-      });
-     
-      const result_ = await storeDetails.save();
-
-      var userDetails = new User({
-        storeName: storeName,
         email: email,
-        storeId:result_._id
+        mobile: mobile,
+        password: password,
+        address: address,
+        tokan: "ttttttt",
       });
-     
-      const result1 = await userDetails.save();
+      const result_ = await storeDetails.save();
       return res.json({
         status: true,
         message: "Store added Successfully",
         result: result_,
-        result1: result1,
       });
-      
-    }
-    catch (e) {
+    } catch (e) {
       return res.json({
         errors: errorFormat(e.message),
         status: false,
         message: "Something went wrong",
       });
     }
-}
-else{    
+}else{    
     try{
     const {
         storeName,

@@ -15,7 +15,7 @@ const storeUserSchema = new mongoose.Schema(
             type: Number,
             default: 1
         },
-        role: {
+        role_id: {
             type: Number,
             default: 1
         },
