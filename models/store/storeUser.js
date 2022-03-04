@@ -5,17 +5,17 @@ const storeUserSchema = new mongoose.Schema(
         storeId: {
             type: String,
         },
-        storeName: {
+        email: {
             type: String,
         },
-        email: {
+        password:{
             type: String,
         },
         status: {
             type: Number,
             default: 1
         },
-        role_id: {
+        role: {
             type: Number,
             default: 1
         },
