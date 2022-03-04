@@ -39,3 +39,30 @@ exports.attributeValidator = (req, res, next) => {
     }
     next();
 };
+
+//shubha : error format
+
+
+exports.storeValidator = (req, res, next) => {
+    const errors_data = {};
+    req.check('email', 'Email must be between 3 to 32 characters')
+        .matches(/.+\@.+\..+/)
+        .withMessage('Email must contain @')
+        .isLength({
+            min: 4,
+            max: 32
+        });
+    req.check('password','Password is required').notEmpty();
+    const errors = req.validationErrors();
+    if (errors) {
+        const firstError = errors.map((error) =>
+        errors_data[error.param] = error.msg
+        );
+        return res.status(400).json({ 
+            errors: errors_data,
+            status: false,
+            message: "Something went wrong"
+        });
+    }
+    next();
+}

@@ -141,7 +141,6 @@ exports.deleteStoreData = async (req , res) => {
 
 exports.addUserRole  = async (req,res) =>{
   if (!(req.body.userRoleId)  ) {
-  console.log("-------","addUserRole");
     try {
       const {roleName ,accessModuleId ,assingTo} = req.body;
       var addUserRole = new UserRoleinSchema({
