@@ -156,7 +156,6 @@ exports.addUserRole  = async (req,res) =>{
       });
     }
 }else{    
-  console.log("addUserRole","addUserRole");
     try{
       const {roleName ,accessModuleId ,assingTo ,userRoleId} = req.body;
       var addUserRole = {
