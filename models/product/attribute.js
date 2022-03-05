@@ -24,7 +24,12 @@ const attributeSchema = new mongoose.Schema(
         },
         dimension:{
          type: String,
+        },
+        status: {
+            type: Number,
+            default: 1
         }
+
     },
     { timestamps: true }
     

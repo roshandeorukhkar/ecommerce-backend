@@ -37,7 +37,6 @@ exports.read = (req, res) => {
 };
 
 exports.update = (req, res) => {
-
     const manufacturer = req.manufacturer;
     manufacturer.manufacturerName = req.body.manufacturerName;
     manufacturer.description = req.body.description;
@@ -52,7 +51,6 @@ exports.update = (req, res) => {
 };
 
 exports.updateDelete = (req, res) => {
-
     const manufacturer = req.manufacturer;
     manufacturer.deletedAt = req.body.manufacturerName;
     manufacturer.save((err, data) => {
@@ -66,6 +64,8 @@ exports.updateDelete = (req, res) => {
 };
 
 exports.updateStatus = (req, res) => {
+    console.log("==========",req)
+
     const manufacturer = req.manufacturer;
     manufacturer.status = req.body.manufacturerName;
     manufacturer.save((err, data) => {

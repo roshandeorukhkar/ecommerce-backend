@@ -7,14 +7,22 @@ const categorySchema = new mongoose.Schema(
             trim: true,
             required: true,
             maxlength: 32,
-        }, date_modified :{
+        },
+        description: {
+            type: String,
+        },
+        date_modified :{
             require : true,
             type : Date
         },
         deletedAt :{
             require : true,
             type : Date,
-        }
+        },
+        status: {
+            type: Number,
+            default: 1
+        },
         /*,
         image:{
             type:String
