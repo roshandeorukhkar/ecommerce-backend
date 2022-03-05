@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
+const storeUsersSchema = require("./storeUser");
 
 const storeSchema = new mongoose.Schema(
     {
@@ -13,7 +15,8 @@ const storeSchema = new mongoose.Schema(
             default : true,
         },
         userId :{
-            type:String ,
+            type:  Schema.Types.ObjectId,
+            ref: "user"
         },
         mobile :{
             type:String ,

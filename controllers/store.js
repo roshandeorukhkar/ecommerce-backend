@@ -17,7 +17,6 @@ const errorFormat = (e) => {
 };
 
 exports.addStoreData = async (req, res) => {
-  //console.log(" gauravvvvs",req.body);
   if (!(req.body.storeId)  ) {  
   try {
     const { storeName, ownerName, email, password, address, userId, mobile } = req.body;
@@ -36,13 +35,10 @@ exports.addStoreData = async (req, res) => {
       email: email,
       storeId:result_._id
     });
-   
     const result1 = await userDetails.save();
     return res.json({
       status: true,
       message: "Store added Successfully",
-      result: result_,
-      result1: result1,
     });
     
   } catch (e) {
@@ -55,18 +51,25 @@ exports.addStoreData = async (req, res) => {
 }
 else{    
   try{
-  const {
-      storeName,
-      ownerName,
-      storeId
-    } = req.body;
+  const { storeName, ownerName, email, password, address, userId, mobile, storeId } = req.body;
     var storeDetails = {
       storeName: storeName,
       ownerName: ownerName,
+      address:address,
+      userId:userId,
+      mobile:mobile,
     };
+    
     const filter = { _id : storeId}
-    const result_ = await storeTestSchema.findOneAndUpdate(filter,storeDetails ,{new: true, runValidators:true });
+    const result_ = await StoreSchema.findOneAndUpdate(filter,storeDetails ,{new: true });
 
+    var userDetails = {
+      password: password,
+      email: email,
+    }
+
+    const userFilter = {storeId  : storeId}
+    const res_ = await User.findOneAndUpdate(userFilter, userDetails ,{new: true })
       return res.json({
           status: true,
           message: "Store updated Successfully",
@@ -85,7 +88,7 @@ else{
 // save store Api
 
 exports.storeList = async (req, res) => {
-  StoreSchema.find(function (err, data) {
+  User.find().populate('storeId').exec((err, data)=> {
     if (err) {
       return done(err);
     }
@@ -99,7 +102,7 @@ exports.storeList = async (req, res) => {
 exports.getStoreDataById = async (req, res) => {
   try {
     const storeId = req.params.storeId;
-    const result = await StoreSchema.findById(storeId);
+    const result = await User.findOne({ storeId : storeId}).populate('storeId');
     return res.json(result);
   } catch (e) {
     return res.status(400).json({

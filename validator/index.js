@@ -53,6 +53,33 @@ exports.storeValidator = (req, res, next) => {
             max: 32
         });
     req.check('password','Password is required').notEmpty();
+    req.check('storeName','Store name is required').notEmpty();
+    req.check('ownerName', 'Owner Name is requied').notEmpty();
+    req.check('address','Address is required').notEmpty();
+    req.check('mobile','Mobile no must be 10 digit')
+    .isLength({
+        min: 10,
+        max: 10
+    });
+    const errors = req.validationErrors();
+    if (errors) {
+        const firstError = errors.map((error) =>
+        errors_data[error.param] = error.msg
+        );
+        return res.status(400).json({ 
+            errors: errors_data,
+            status: false,
+            message: "Something went wrong"
+        });
+    }
+    next();
+}
+
+exports.userRoleValidator = (req, res, next) =>{
+    const errors_data = {};
+    req.check('roleName','Role Name is required').notEmpty();
+    req.check('accessModuleId','Access Module is required').notEmpty();
+    req.check('assingTo','User Id is required').notEmpty();
     const errors = req.validationErrors();
     if (errors) {
         const firstError = errors.map((error) =>

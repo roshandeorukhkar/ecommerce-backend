@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+const storeSchema =  require('./store');
+const { Schema } = mongoose;
 
 const storeUserSchema = new mongoose.Schema(
     {
-        storeId: {
-            type: String,
-        },
+        // storeId: {
+        //     type: String,
+        // },
         email: {
             type: String,
         },
@@ -27,6 +29,10 @@ const storeUserSchema = new mongoose.Schema(
         },
         deletedAt: {
             type: Date,
+        },
+        storeId: {
+            type: Schema.Types.ObjectId,
+            ref: "Store"
         }
     },
     { timestamps: true }
