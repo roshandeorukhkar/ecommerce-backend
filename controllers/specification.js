@@ -104,3 +104,30 @@ exports.list = (req, res) => {
             res.json(products);
         });
 };
+
+exports.updateStatus = (req, res) => {
+    console.log("==========",req)
+    const specification = req.product;
+    specification.status = req.body.manufacturerName;
+    specification.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
+exports.changeStatus = (req, res) => {
+    const specification = req.product;
+    specification.status = req.body.manufacturerName;
+    specification.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};

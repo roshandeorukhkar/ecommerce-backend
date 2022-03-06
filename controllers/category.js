@@ -79,6 +79,34 @@ exports.remove = (req, res) => {
     })
 };
 
+exports.updateStatus = (req, res) => {
+    const category = req.category;
+    category.status = req.body.name;
+    category.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
+exports.changeStatus = (req, res) => {
+    console.log("==========",req.category)
+    const category = req.category;
+    category.status = req.body.name;
+    category.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
+
 exports.list = (req, res) => {
     Category.find().exec((err, data) => {
         if (err) {

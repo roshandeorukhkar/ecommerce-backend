@@ -25,8 +25,11 @@ const specificationSchema = new mongoose.Schema(
             type : Date,
         },
         description: {
-            type: String
-            
+            type: String 
+        },
+        status: {
+            type: Number,
+            default: 1
         }
     },
     { timestamps: true }

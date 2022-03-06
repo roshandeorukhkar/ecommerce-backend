@@ -1,6 +1,7 @@
 const { json } = require("body-parser");
 const StoreSchema = require("../models/store/store");
 const UserRoleinSchema = require('../models/userRole');
+const User = require("../models/store/storeUser");
 
 // Get moongose error
 
@@ -15,87 +16,79 @@ const errorFormat = (e) => {
   return errors;
 };
 
+exports.addStoreData = async (req, res) => {
+  if (!(req.body.storeId)  ) {  
+  try {
+    const { storeName, ownerName, email, password, address, userId, mobile } = req.body;
+    var storeDetails = new StoreSchema({
+      storeName: storeName,
+      ownerName: ownerName,
+      address:address,
+      userId:userId,
+      mobile:mobile,
+    });
+   
+    const result_ = await storeDetails.save();
+
+    var userDetails = new User({
+      password: password,
+      email: email,
+      storeId:result_._id
+    });
+    const result1 = await userDetails.save();
+    return res.json({
+      status: true,
+      message: "Store added Successfully",
+    });
+    
+  } catch (e) {
+    return res.json({
+      errors: errorFormat(e.message),
+      status: false,
+      message: "Something went wrong.....",
+    });
+  }
+}
+else{    
+  try{
+  const { storeName, ownerName, email, password, address, userId, mobile, storeId } = req.body;
+    var storeDetails = {
+      storeName: storeName,
+      ownerName: ownerName,
+      address:address,
+      userId:userId,
+      mobile:mobile,
+    };
+    
+    const filter = { _id : storeId}
+    const result_ = await StoreSchema.findOneAndUpdate(filter,storeDetails ,{new: true });
+
+    var userDetails = {
+      password: password,
+      email: email,
+    }
+
+    const userFilter = {storeId  : storeId}
+    const res_ = await User.findOneAndUpdate(userFilter, userDetails ,{new: true })
+      return res.json({
+          status: true,
+          message: "Store updated Successfully",
+          result: result_,
+        });
+  }catch(e){
+      return res.json({
+          errors: errorFormat(e.message),
+          status: false,
+          message: "Something went wrong for update",
+        });
+  }
+  
+}
+};
 // save store Api
 
-exports.addStoreData = async (req, res) => {
-  if (!(req.body.storeId)  ) {
-    try {
-      const {
-        storeName,
-        ownerName,
-        address,
-        userName,
-        mobile,
-        password,
-        email
-      } = req.body;
-      var storeDetails = new StoreSchema({
-        storeName: storeName,
-        userName: userName,
-        ownerName: ownerName,
-        email: email,
-        mobile: mobile,
-        password: password,
-        address: address,
-        tokan: "ttttttt",
-      });
-      const result_ = await storeDetails.save();
-      return res.json({
-        status: true,
-        message: "Store added Successfully",
-        result: result_,
-      });
-    } catch (e) {
-      return res.json({
-        errors: errorFormat(e.message),
-        status: false,
-        message: "Something went wrong",
-      });
-    }
-}else{    
-    try{
-    const {
-        storeName,
-        ownerName,
-        address,
-        userName,
-        mobile,
-        password,
-        email,
-        storeId
-      } = req.body;
-      var storeDetails = {
-        storeName: storeName,
-        userName: userName,
-        ownerName: ownerName,
-        email: email,
-        mobile: mobile,
-        password: password,
-        address: address,
-        tokan: "ttttttt",
-      };
-      const filter = { _id : storeId}
-      const result_ = await StoreSchema.findOneAndUpdate(filter,storeDetails ,{new: true, runValidators:true });
-
-        return res.json({
-            status: true,
-            message: "Store updated Successfully",
-            result: result_,
-          });
-    }catch(e){
-        return res.json({
-            errors: errorFormat(e.message),
-            status: false,
-            message: "Something went wrong for update",
-          });
-    }
-    
-  }
-};
-
-
 exports.storeList = async (req, res) => {
-  StoreSchema.find(function (err, data) {
+  User.find().populate('storeId').exec((err, data)=> {
     if (err) {
       return done(err);
     }
@@ -109,7 +102,7 @@ exports.storeList = async (req, res) => {
 exports.getStoreDataById = async (req, res) => {
   try {
     const storeId = req.params.storeId;
-    const result = await StoreSchema.findById(storeId);
+    const result = await User.findOne({ storeId : storeId}).populate('storeId');
     return res.json(result);
   } catch (e) {
     return res.status(400).json({
@@ -141,7 +134,6 @@ exports.deleteStoreData = async (req , res) => {
 
 exports.addUserRole  = async (req,res) =>{
   if (!(req.body.userRoleId)  ) {
-  console.log("-------","addUserRole");
     try {
       const {roleName ,accessModuleId ,assingTo} = req.body;
       var addUserRole = new UserRoleinSchema({
@@ -164,7 +156,6 @@ exports.addUserRole  = async (req,res) =>{
       });
     }
 }else{    
-  console.log("addUserRole","addUserRole");
     try{
       const {roleName ,accessModuleId ,assingTo ,userRoleId} = req.body;
       var addUserRole = {

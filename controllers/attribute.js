@@ -3,7 +3,7 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.attributeById = (req, res, next, id) => {
     Attribute.findById(id)
-        //.populate('category')
+        //.populate('attribute')
         .exec((err, attribute) => {
             if (err || !attribute) {
                 return res.status(400).json({
@@ -33,6 +33,31 @@ exports.updateDelete = (req, res) => {
     });
 };
 
+exports.updateStatus = (req, res) => {
+    const attribute = req.attribute;
+    attribute.status = req.body.attributeName;
+    attribute.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
+exports.changeStatus = (req, res) => {
+    const attribute = req.attribute;
+    attribute.status = req.body.attributeName;
+    attribute.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
 exports.remove = (req, res) => {
     let attribute = req.attribute;
     attribute.remove((err, deletedAttribute) => {

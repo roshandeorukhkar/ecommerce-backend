@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { create,remove, categoryById, read, update, list } = require('../controllers/category');
+const { create,remove, categoryById, read,updateStatus,changeStatus, update, list } = require('../controllers/category');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/customer');
 
@@ -10,6 +10,8 @@ router.get('/category/:categoryId', read);
 //router.post('/category/create/:userId', requireSignin, isAuth, create);
 router.post('/category/create', create);
 router.delete("/category/:categoryId", remove);
+router.post("/category/status/:categoryId", updateStatus);
+router.post("/category/statusChange/:categoryId", changeStatus);
 
 // router.put('/category/:categoryUpdateId/:userId', requireSignin, isAuth, isAdmin, update);
 //router.put('/category/:categoryId/:userId', requireSignin, isAuth, update);

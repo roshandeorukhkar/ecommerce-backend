@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
+const { storeValidator } = require('../validator');
+ 
 const { addStoreData } = require('../controllers/store');
-router.post("/addStoreData", addStoreData);
+router.post("/addStoreData",storeValidator, addStoreData);
 
 const { storeList } = require("../controllers/store");
 router.get("/getStoreList", storeList);

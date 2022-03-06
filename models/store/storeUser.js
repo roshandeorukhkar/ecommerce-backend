@@ -1,21 +1,23 @@
 const mongoose = require('mongoose');
+const storeSchema =  require('./store');
+const { Schema } = mongoose;
 
 const storeUserSchema = new mongoose.Schema(
     {
-        storeId: {
-            type: String,
-        },
-        storeName: {
-            type: String,
-        },
+        // storeId: {
+        //     type: String,
+        // },
         email: {
+            type: String,
+        },
+        password:{
             type: String,
         },
         status: {
             type: Number,
             default: 1
         },
-        role_id: {
+        role: {
             type: Number,
             default: 1
         },
@@ -27,6 +29,10 @@ const storeUserSchema = new mongoose.Schema(
         },
         deletedAt: {
             type: Date,
+        },
+        storeId: {
+            type: Schema.Types.ObjectId,
+            ref: "Store"
         }
     },
     { timestamps: true }
