@@ -18,7 +18,7 @@ const { requireSignin, isAuth } = require("../controllers/auth");
 const { userById } = require("../controllers/customer");
 
 router.get("/product/:productId", read);
-router.post("/product/create/:userId", requireSignin, isAuth, create);
+router.post("/product/create/:userId", requireSignin, isAuth, create); 
 router.delete(
     "/product/:productId/:userId",
     requireSignin,
