@@ -20,7 +20,6 @@ router.post("/manufacturer/statusChange/:manufacturerId", changeStatus);
 
 
 router.param('manufacturerId', manufacturerById);
-
 //router.param('userId', userById);
 
 module.exports = router;
