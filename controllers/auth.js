@@ -3,6 +3,7 @@ const User = require('../models/customer/customer');
 const jwt = require('jsonwebtoken'); // to generate signed token
 const expressJwt = require('express-jwt'); // for authorization check
 const { errorHandler } = require('../helpers/dbErrorHandler');
+const { getModuleAccess } = require("../services/users/accessProviders")
 
 // using promise
 exports.signup = (req, res) => {
@@ -76,20 +77,26 @@ exports.signout = (req, res) => {
 
 exports.requireSignin = expressJwt({
     secret: process.env.JWT_SECRET,
-    userProperty: 'auth'
+    userProperty: 'user'
 });
 
-exports.isAuth = (req, res, next) => {
-    let user = req.profile && req.auth && req.profile._id == req.auth._id;
-    if (!user) {
+exports.isAuth = async (req, res, next) => {
+    const isAuthenticated = await checkAuthenticForModule(req.user, req.route.path);
+    console.log("isAuthenticated", isAuthenticated)
+    if (!isAuthenticated) {
         return res.status(403).json({
             error: 'Access denied'
         });
     }
     next();
 };
-
-// exports.isAdmin = (req, res, next) => {
+async function checkAuthenticForModule(user, modulePath) {
+    if(user && modulePath) {
+       const moduleList = await getModuleAccess(user)
+       return modulePath, moduleList.modules.some((o) => modulePath.startsWith(o.path))
+    }
+}
+// exports.isAdmin = (req, res, next) =         > {
 //     if (req.profile.role === 0) {
 //         return res.status(403).json({
 //             error: 'Admin resourse! Access denied'

@@ -11,15 +11,15 @@ const {
         update,
         userById
     } = require("../controllers/user");
+const { requireSignin, isAuth } = require("../controllers/auth");
+router.post("/users/signin", signIn);
+router.post("/users/signup", signUp);
+router.get("/users/signout", signout);
 
-router.post("/user/signin", signIn);
-router.post("/user/signup", signUp);
-router.get("/user/signout", signout);
-
-router.get('/user/:userId', read);
-router.get('/user', list);
-router.delete("/user/:userId", remove);
-router.put("/user/:userId", update);
+router.get('/users/:userId', requireSignin, isAuth, read);
+router.get('/users', requireSignin, isAuth, list);
+router.delete("/users/:userId", requireSignin, isAuth, remove);
+router.put("/users/:userId", requireSignin, isAuth, update);
 
 router.param('userId', userById);
 

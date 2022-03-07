@@ -10,9 +10,8 @@ const userRoleSchema = new mongoose.Schema(
             type : String ,
             required :  [true, 'Role name is required']
         },
-        accessModuleId :{
-            type : String,
-            required :  [true, 'Please select module']
+        modules :{
+            type : Array
         },
         assingTo : {
             type : String,

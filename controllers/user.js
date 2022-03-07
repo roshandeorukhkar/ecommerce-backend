@@ -2,7 +2,7 @@ const Users = require('../models/user');
 const jwt = require('jsonwebtoken'); // to generate signed token
 const expressJwt = require('express-jwt');
 const { errorHandler } = require('../helpers/dbErrorHandler');
-const { getUserRoleById } = require("../services/users/userRoles")
+const { getModuleAccess } = require("../services/users/accessProviders")
 const moment = require('moment');
 
 //using async/await
@@ -45,7 +45,7 @@ exports.signIn = async (req, res) => {
     // persist the token as 't' in cookie with expiry date
     res.cookie('t', token, { expire: new Date() + 9999 });
     // return response with user and token to frontend client
-    const modules = await getUserRoleById(user.userRole);
+    const { modules } = await getModuleAccess(user._id);
     return res.json({ token, user, modules});
 };
 

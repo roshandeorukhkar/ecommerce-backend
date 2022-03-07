@@ -1,25 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const { productById, read, list, update, updateDelete, updateStatus, updateStatusCheck, remove} = require('../controllers/cust');
+const { maniValidator } = require("../validator");
 
-//const { requireSignin, isAuth } = require('../controllers/auth');
+router.get('/customer/:productId', read);
+router.get('/customer', list);
+router.put("/customer/:productId", update);
+router.delete("/customer/:productId", remove);
 
-//const { userById, read, update, purchaseHistory, list, reads } = require('../controllers/customer');
+router.post("/customer/delete/:productId", updateDelete);
+router.post("/customer/status/:productId", updateStatus);
+router.post("/customer/statusCheck/:productId", updateStatusCheck);
 
-// router.get('/secret', requireSignin, (req, res) => {
-//     res.json({
-//         user: 'got here yay'
-//     });
-// });
 
-//router.get('/user/:userId', requireSignin, isAuth, read);
-//router.put('/user/:userId', requireSignin, isAuth, update);
-//router.get('/orders/by/user/:userId', requireSignin, isAuth, purchaseHistory);
 
-//router.get('/customer', list);
-
-//router.get('/customer/:productId', reads);
-
-//router.param('userId', userById);
-
+router.param('productId', productById);
 
 module.exports = router;

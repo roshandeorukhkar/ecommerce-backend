@@ -37,7 +37,7 @@ router.put(
     updateOrderStatus
 );
 
-router.param("userId", userById);
-router.param("orderId", orderById);
+// router.param("userId", userById);
+// router.param("orderId", orderById);
 
 module.exports = router;

@@ -17,7 +17,7 @@ const {
 const { requireSignin, isAuth } = require("../controllers/auth");
 const { userById } = require("../controllers/customer");
 
-router.get("/product/:productId", read);
+router.get("/product/:productId", requireSignin, isAuth, read);
 router.post("/product/create/:userId", requireSignin, isAuth, create); 
 router.delete(
     "/product/:productId/:userId",
@@ -34,7 +34,7 @@ router.put(
     update
 );
 
-router.get("/products", list);
+router.get("/products", requireSignin, isAuth, list);
 router.get("/products/search", listSearch);
 router.get("/products/related/:productId", listRelated);
 router.get("/products/categories", listCategories);
