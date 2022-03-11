@@ -4,9 +4,7 @@ const { Schema } = mongoose;
 
 const storeUserSchema = new mongoose.Schema(
     {
-        // storeId: {
-        //     type: String,
-        // },
+
         email: {
             type: String,
         },
@@ -19,13 +17,28 @@ const storeUserSchema = new mongoose.Schema(
         },
         role: {
             type: Number,
-            default: 1
+            default: 3
         },
         date_added: {
             type: Date,
         },
         date_modified: {
             type: Date,
+        },
+        name:{
+            type:String,
+        },
+        address:{
+            type:String,
+        },
+        userId:{
+            type: Schema.Types.ObjectId,
+          //  type:String,
+           // type: Schema.Types.ObjectId,
+          //  ref: "user"
+        },
+        mobile:{
+            type:String
         },
         deletedAt: {
             type: Date,
