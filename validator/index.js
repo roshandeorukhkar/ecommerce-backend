@@ -98,7 +98,7 @@ exports.userRoleValidator = (req, res, next) =>{
     const errors_data = {};
     req.check('roleName','Role Name is required').notEmpty();
     req.check('accessModuleId','Access Module is required').notEmpty();
-    req.check('assingTo','User Id is required').notEmpty();
+    req.check('assingTo','User Name is required').notEmpty();
     const errors = req.validationErrors();
     if (errors) {
         const firstError = errors.map((error) =>

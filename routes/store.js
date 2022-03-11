@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { storeValidator } = require('../validator');
+const { userRoleValidator } =require('../validator');
  
 const { addStoreData } = require('../controllers/store');
 router.post("/addStoreData",storeValidator, addStoreData);
@@ -20,15 +21,18 @@ const {
     addUserRole
     } = require("../controllers/store");
 
-router.post("/addUserRoleData", addUserRole);
+router.post("/addUserRoleData",userRoleValidator, addUserRole);
 
 const { getUserRoleListData } = require("../controllers/store");
-router.get("/getUserRoleListData" , getUserRoleListData);
+router.get("/getUserRoleListData/:storeId" , getUserRoleListData);
 
 const { getUserRoleByIdData } = require("../controllers/store");
 router.get("/getUserRoleByIdData/:roleId" ,getUserRoleByIdData);
 
 const { deleteUserRole } = require("../controllers/store");
 router.get("/deleteUserRoleData/:userRoleId" ,deleteUserRole);
+
+const { storeUserList } = require("../controllers/store");
+router.get("/storeUserList/:storeId" , storeUserList);
 
 module.exports = router;

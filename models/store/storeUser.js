@@ -35,6 +35,8 @@ const storeUserSchema = new mongoose.Schema(
             ref: "Store"
         }
     },
-    { timestamps: true }
+    { timestamps: true },
+    { collection: 'users' }
 );
+
 module.exports = mongoose.model('user', storeUserSchema);
