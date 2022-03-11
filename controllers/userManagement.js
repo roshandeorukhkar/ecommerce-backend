@@ -1,10 +1,10 @@
-const User = require('../models/store/store');
+// const Store = require('../models/store/store');
 const { errorHandler } = require('../helpers/dbErrorHandler');
-
+const Users = require("../models/store/storeUser");
 
 exports.userById = (req, res, next, id) => {
-    User.findById(id)
-       .exec((err, user) => {
+    Users.findById(id).populate('storeId').exec((err, user) => {
+   // Store.findById(id).exec((err, user) => {
            if (err || !user) {
                return res.status(400).json({
                    error: 'user not found'
@@ -18,7 +18,7 @@ exports.userById = (req, res, next, id) => {
 /* insert into db table here  */
 exports.create = (req, res) => {
    console.log(req.body)
-   const user = new User(req.body);
+   const user = new Users(req.body);
    user.save((err, data) => {
        if (err) {
            return res.status(400).json({
@@ -37,7 +37,7 @@ exports.read = (req, res) => {
 exports.update = (req, res) => {
 
    const user = req.user;
-   user.ownerName = req.body.ownerName;
+   user.name = req.body.name;
    user.email = req.body.email;
    user.address = req.body.address;
    user.save((err, data) => {
@@ -80,19 +80,20 @@ exports.remove = (req, res) => {
 
 exports.list = (req, res) => {
        
-   let order = req.query.order ? req.query.order : 'asc';
-   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-   
-   User.find()
-       .sort([[sortBy, order]])
-       .exec((err, user) => {
-           if (err) {
-               return res.status(400).json({
-                   error: 'user not found'
-               });
-           }
-           res.json(user);
+    let order = req.query.order ? req.query.order : 'asc';
+    let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+                
     
-       });
-};
+    Users.find().sort([[sortBy, order]]).populate('storeId').exec((err, user) => {
+            if (err) {
+                return res.status(400).json({
+                    error: 'user not found'
+                });
+            }
+            res.json(user);
+     
+        });
+ };
+
+
 
