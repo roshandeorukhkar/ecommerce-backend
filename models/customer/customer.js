@@ -16,8 +16,8 @@ const customerSchema = new mongoose.Schema(
         email: {
             type: String,
             trim: true,
-            required: true,
-            unique: true
+            //required: true,
+            //unique: true
         },
         hashed_password: {
             type: String,
