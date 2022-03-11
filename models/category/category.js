@@ -5,7 +5,7 @@ const categorySchema = new mongoose.Schema(
         name: {
             type: String,
             trim: true,
-            required: true,
+           // required: true,
             maxlength: 32,
         },
         description: {
@@ -20,7 +20,7 @@ const categorySchema = new mongoose.Schema(
             type : Date
         },
         deletedAt :{
-            require : true,
+            //require : true,
             type : Date,
         },
         status: {
