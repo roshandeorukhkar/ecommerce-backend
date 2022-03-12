@@ -33,12 +33,15 @@ const storeUserSchema = new mongoose.Schema(
         },
         userId:{
             type: Schema.Types.ObjectId,
-          //  type:String,
-           // type: Schema.Types.ObjectId,
-          //  ref: "user"
         },
         mobile:{
             type:String
+        },
+        isDelete :{
+            required : false,
+            type : Boolean,
+            default : 0,
+            ref : "1 is deleted & 0 is not deleted",
         },
         deletedAt: {
             type: Date,

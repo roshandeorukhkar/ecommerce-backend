@@ -24,15 +24,14 @@ exports.addStoreData = async (req, res) => {
       const { storeName, ownerName, email, password, address, userId, mobile } = req.body;
       var storeDetails = new StoreSchema({
         storeName: storeName,
-        ownerName: ownerName,
-        address: address,
-        userId: userId,
-        mobile: mobile,
       });
 
       const result_ = await storeDetails.save();
 
       var userDetails = new User({
+        name: ownerName,
+        mobile: mobile,
+        address: address,
         password: password,
         email: email,
         storeId: result_._id
@@ -56,20 +55,18 @@ exports.addStoreData = async (req, res) => {
       const { storeName, ownerName, email, password, address, userId, mobile, storeId } = req.body;
       var storeDetails = {
         storeName: storeName,
-        ownerName: ownerName,
-        address: address,
-        userId: userId,
-        mobile: mobile,
       };
 
       const filter = { _id: storeId }
       const result_ = await StoreSchema.findOneAndUpdate(filter, storeDetails, { new: true });
 
       var userDetails = {
+        name: ownerName,
+        mobile: mobile,
+        address: address,
         password: password,
         email: email,
       }
-
       const userFilter = { storeId: storeId }
       const res_ = await User.findOneAndUpdate(userFilter, userDetails, { new: true })
       return res.json({
@@ -90,7 +87,7 @@ exports.addStoreData = async (req, res) => {
 // save store Api
 
 exports.storeList = async (req, res) => {
-  User.find({ role: 1 }).populate('storeId').exec((err, data) => {
+  User.find({ role: 3 }).populate('storeId').exec((err, data) => {
     if (err) {
       return done(err);
     }
@@ -190,28 +187,9 @@ exports.addUserRole = async (req, res) => {
   }
 }
 
-exports.getUserRoleListData1 = async (req, res) => {
-  try {
-    const storeId = req.params.storeId;
-    const data = await UserRoleinSchema.find({
-      'storeId': { $in: storeId },
-      'isDelete': { $in: false }
-    });
-    return res.json({
-      status: true,
-      result: data,
-    });
-  } catch (err) {
-    return res.status(400).json({
-      error: "store not found" + err,
-    });
-  }
-};
-
 exports.getUserRoleListData = async (req, res) => {
   try {
     const storeId = req.params.storeId;
-    console.log("storeId", storeId);
     let matchObj = {};
     matchObj['storeId'] = mongoose.Types.ObjectId(storeId);
     await UserRoleinSchema.aggregate([
@@ -240,9 +218,6 @@ exports.getUserRoleListData = async (req, res) => {
       {
         $unwind:  "$user",
       },
-    //   {
-    //      $unwind : "$accessModule",
-    //  },
       {
         $project: {
           "user.name" : 1,
@@ -256,7 +231,6 @@ exports.getUserRoleListData = async (req, res) => {
         }
       },
     ]).exec((err, data) => {
-      console.log("-----data", data);
       if (err) {
         return res.status(400).json({
           error: "store not found" + err,
@@ -309,10 +283,36 @@ exports.deleteUserRole = async (req, res) => {
 
 exports.storeUserList = async (req, res) => {
   try {
+    let matchObj = {};
     const storeId = req.params.storeId;
-    const result = await User.find({
-      storeId: { $in: storeId }
-    });
+    matchObj['storeId'] = mongoose.Types.ObjectId(storeId);
+    console.log(matchObj);
+    const result = await User.aggregate([
+      {
+        $lookup : {
+          from : UserRoleinSchema.collection.name,
+          localField : "_id",
+          foreignField: "user_id",
+          as: "userRole"
+        }
+      },
+      {
+        $match: 
+        {
+            $and : [
+              {...matchObj },
+              {'isDelete' : false},
+              // {'userRole.isDelete' : true}
+            ]
+        },
+      },
+      {
+        $project: {
+          _id : '$_id',
+          name:  '$name'
+        }
+      }
+    ]);
     return res.json(result);
   } catch (e) {
     return res.status(400).json({
