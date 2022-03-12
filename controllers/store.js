@@ -302,7 +302,7 @@ exports.storeUserList = async (req, res) => {
             $and : [
               {...matchObj },
               {'isDelete' : false},
-              {'role' : {$nin : ['1','2','3','4']}}
+              {'role' : {$nin : [1,2,3,4]}}
               // {'userRole.isDelete' : true}
             ]
         },
