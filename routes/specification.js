@@ -3,6 +3,7 @@ const router = express.Router();
 const { create, productById, read, update,updateStatus,changeStatus, remove, list } = require('../controllers/specification');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
+const { specificationValidator } = require("../validator");
 
 router.get('/specification/:productId', read);
 // console.log("router------>",router);
@@ -12,7 +13,7 @@ router.put("/specification/:productId", update);
 router.post("/specification/status/:productId", updateStatus);
 router.post("/specification/statusChange/:productId", changeStatus);
 router.get('/specification', list);
-router.post('/specification/create', create);
+router.post('/specification/create', specificationValidator, create);
 router.delete("/specification/:productId", remove);
 
 router.param('productId', productById);

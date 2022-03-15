@@ -106,7 +106,7 @@ exports.list = (req, res) => {
 };
 
 exports.updateStatus = (req, res) => {
-    console.log("==========",req)
+    //console.log("==========",req)
     const specification = req.product;
     specification.status = req.body.manufacturerName;
     specification.save((err, data) => {

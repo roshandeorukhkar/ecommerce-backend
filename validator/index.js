@@ -136,3 +136,14 @@ exports.userRoleValidator = (req, res, next) =>{
     }
     next();
 }
+// specification validation
+
+exports.specificationValidator = (req, res, next) => {
+    req.check('manufacturerName', 'name is required').notEmpty();
+    const errors = req.validationErrors();
+    if (errors) {
+        const firstError = errors.map(error => error.msg)[0];
+        return res.status(400).json({ error: firstError });
+    }
+    next();
+};

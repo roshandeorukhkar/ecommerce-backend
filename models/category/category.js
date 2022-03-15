@@ -11,9 +11,9 @@ const categorySchema = new mongoose.Schema(
         description: {
             type: String,
         },
-        category: {
-            // type: String,
-            type: Schema.Types.ObjectId,
+        subcategory: {
+            type: String,
+            //type: Schema.Types.ObjectId,
         },
         date_modified :{
             require : true,
