@@ -9,7 +9,7 @@ router.get('/specification/:productId', read);
 // console.log("router------>",router);
 // router.post('/man/create1/:userId', requireSignin, isAuth, isAdmin, create1);
 
-router.put("/specification/:productId", update);
+router.put("/specification/:productId",specificationValidator, update);
 router.post("/specification/status/:productId", updateStatus);
 router.post("/specification/statusChange/:productId", changeStatus);
 router.get('/specification', list);
