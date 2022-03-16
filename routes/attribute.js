@@ -12,7 +12,7 @@ router.post('/attribute/create',attributeValidator, create);
 router.get('/attribute', list);
 router.post("/attribute/status/:attributeId", updateStatus);
 router.post("/attribute/statusChange/:attributeId", changeStatus);
-router.put("/attribute/:attributeId", update);
+router.put("/attribute/:attributeId", attributeValidator, update);
 router.delete("/attribute/:attributeId", remove);
 router.post("/attribute/delete/:attributeId", updateDelete);
 
