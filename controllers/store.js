@@ -1,9 +1,9 @@
 const { json } = require("body-parser");
 const StoreSchema = require("../models/store/store");
-const UserRoleinSchema = require('../models/userRole');
+const UserRoleinSchema = require("../models/userRole");
 const User = require("../models/store/storeUser");
-const AccessModuleSchema = require('../models/accessModule');
-const mongoose = require('mongoose');
+const AccessModuleSchema = require("../models/accessModule");
+const mongoose = require("mongoose");
 
 // Get moongose error
 
@@ -19,9 +19,10 @@ const errorFormat = (e) => {
 };
 
 exports.addStoreData = async (req, res) => {
-  if (!(req.body.storeId)) {
+  if (!req.body.storeId) {
     try {
-      const { storeName, ownerName, email, password, address, userId, mobile } = req.body;
+      const { storeName, ownerName, email, password, address, userId, mobile } =
+        req.body;
       var storeDetails = new StoreSchema({
         storeName: storeName,
       });
@@ -34,14 +35,13 @@ exports.addStoreData = async (req, res) => {
         address: address,
         password: password,
         email: email,
-        storeId: result_._id
+        storeId: result_._id,
       });
       const result1 = await userDetails.save();
       return res.json({
         status: true,
         message: "Store added Successfully",
       });
-
     } catch (e) {
       return res.json({
         errors: errorFormat(e.message),
@@ -49,16 +49,26 @@ exports.addStoreData = async (req, res) => {
         message: "Something went wrong.....",
       });
     }
-  }
-  else {
+  } else {
     try {
-      const { storeName, ownerName, email, password, address, userId, mobile, storeId } = req.body;
+      const {
+        storeName,
+        ownerName,
+        email,
+        password,
+        address,
+        userId,
+        mobile,
+        storeId,
+      } = req.body;
       var storeDetails = {
         storeName: storeName,
       };
 
-      const filter = { _id: storeId }
-      const result_ = await StoreSchema.findOneAndUpdate(filter, storeDetails, { new: true });
+      const filter = { _id: storeId };
+      const result_ = await StoreSchema.findOneAndUpdate(filter, storeDetails, {
+        new: true,
+      });
 
       var userDetails = {
         name: ownerName,
@@ -66,9 +76,11 @@ exports.addStoreData = async (req, res) => {
         address: address,
         password: password,
         email: email,
-      }
-      const userFilter = { storeId: storeId }
-      const res_ = await User.findOneAndUpdate(userFilter, userDetails, { new: true })
+      };
+      const userFilter = { storeId: storeId };
+      const res_ = await User.findOneAndUpdate(userFilter, userDetails, {
+        new: true,
+      });
       return res.json({
         status: true,
         message: "Store updated Successfully",
@@ -81,27 +93,28 @@ exports.addStoreData = async (req, res) => {
         message: "Something went wrong for update",
       });
     }
-
   }
 };
 // save store Api
 
 exports.storeList = async (req, res) => {
-  User.find({ role: 3 }).populate('storeId').exec((err, data) => {
-    if (err) {
-      return done(err);
-    }
-    return res.json({
-      status: true,
-      result: data,
+  User.find({ role: 3 })
+    .populate("storeId")
+    .exec((err, data) => {
+      if (err) {
+        return done(err);
+      }
+      return res.json({
+        status: true,
+        result: data,
+      });
     });
-  });
 };
 
 exports.getStoreDataById = async (req, res) => {
   try {
     const storeId = req.params.storeId;
-    const result = await User.findOne({ storeId: storeId }).populate('storeId');
+    const result = await User.findOne({ storeId: storeId }).populate("storeId");
     return res.json(result);
   } catch (e) {
     return res.status(400).json({
@@ -113,11 +126,11 @@ exports.getStoreDataById = async (req, res) => {
 exports.deleteStoreData = async (req, res) => {
   try {
     var storeDetails = {
-      isDelete: true
+      isDelete: true,
     };
-    const filter = { _id: req.params.storeId }
+    const filter = { _id: req.params.storeId };
     const result_ = await StoreSchema.findOneAndUpdate(filter, storeDetails);
-    console.log(result_, "result_")
+    console.log(result_, "result_");
     return res.json({
       status: true,
       message: "Store deleted Successfully",
@@ -128,11 +141,10 @@ exports.deleteStoreData = async (req, res) => {
       error: "store not found" + e,
     });
   }
-}
-
+};
 
 exports.addUserRole = async (req, res) => {
-  if (!(req.body.userRoleId)) {
+  if (!req.body.userRoleId) {
     try {
       console.log(req.body);
       const userId = mongoose.Types.ObjectId(req.body.assingTo.value);
@@ -158,19 +170,22 @@ exports.addUserRole = async (req, res) => {
         message: "Something went wrong",
       });
     }
-  } else 
-    {
+  } else {
     try {
-        console.log( "-----------------???",req.body);
+      console.log("-----------------???", req.body);
       const userId = mongoose.Types.ObjectId(req.body.assingTo.value);
-      const { roleName, accessModuleId,  userRoleId } = req.body;
+      const { roleName, accessModuleId, userRoleId } = req.body;
       var addUserRole = {
         roleName: roleName,
         accessModuleId: accessModuleId,
         user_id: userId,
       };
-      const filter = { _id: userRoleId }
-      const result_ = await UserRoleinSchema.findOneAndUpdate(filter, addUserRole, { new: true, runValidators: true });
+      const filter = { _id: userRoleId };
+      const result_ = await UserRoleinSchema.findOneAndUpdate(
+        filter,
+        addUserRole,
+        { new: true, runValidators: true }
+      );
       return res.json({
         status: true,
         message: "User role updated Successfully",
@@ -183,21 +198,20 @@ exports.addUserRole = async (req, res) => {
         message: "Something went wrong for update",
       });
     }
-
   }
-}
+};
 
 exports.getUserRoleListData = async (req, res) => {
   try {
     const storeId = req.params.storeId;
     let matchObj = {};
-    matchObj['storeId'] = mongoose.Types.ObjectId(storeId);
+    matchObj["storeId"] = mongoose.Types.ObjectId(storeId);
     await UserRoleinSchema.aggregate([
       {
         $match: {
           ...matchObj,
-          'isDelete': false,
-        }
+          isDelete: false,
+        },
       },
       {
         $lookup: {
@@ -212,23 +226,23 @@ exports.getUserRoleListData = async (req, res) => {
           from: AccessModuleSchema.collection.name,
           localField: "accessModuleId",
           foreignField: "name",
-          as: "accessModule"
-        }
+          as: "accessModule",
+        },
       },
       {
-        $unwind:  "$user",
+        $unwind: "$user",
       },
       {
         $project: {
-          "user.name" : 1,
+          "user.name": 1,
           "accessModule.label": 1,
           roleName: 1,
           accessModuleId: 1,
           createdDate: 1,
           status: 1,
           _id: 1,
-          user_id:1
-        }
+          user_id: 1,
+        },
       },
     ]).exec((err, data) => {
       if (err) {
@@ -242,13 +256,13 @@ exports.getUserRoleListData = async (req, res) => {
           result: data,
         });
       }
-    })
+    });
   } catch (err) {
     return res.status(400).json({
       error: "store not found" + err,
     });
   }
-}
+};
 
 exports.getUserRoleByIdData = async (req, res) => {
   try {
@@ -265,10 +279,13 @@ exports.getUserRoleByIdData = async (req, res) => {
 exports.deleteUserRole = async (req, res) => {
   try {
     var userRoleDetails = {
-      isDelete: true
+      isDelete: true,
     };
-    const filter = { _id: req.params.userRoleId }
-    const result_ = await UserRoleinSchema.findOneAndUpdate(filter, userRoleDetails);
+    const filter = { _id: req.params.userRoleId };
+    const result_ = await UserRoleinSchema.findOneAndUpdate(
+      filter,
+      userRoleDetails
+    );
     return res.json({
       status: true,
       message: "User Role deleted Successfully",
@@ -279,40 +296,39 @@ exports.deleteUserRole = async (req, res) => {
       error: "User Role not found" + e,
     });
   }
-}
+};
 
 exports.storeUserList = async (req, res) => {
   try {
     let matchObj = {};
     const storeId = req.params.storeId;
-    matchObj['storeId'] = mongoose.Types.ObjectId(storeId);
+    matchObj["storeId"] = mongoose.Types.ObjectId(storeId);
     console.log(matchObj);
     const result = await User.aggregate([
       {
-        $lookup : {
-          from : UserRoleinSchema.collection.name,
-          localField : "_id",
+        $lookup: {
+          from: UserRoleinSchema.collection.name,
+          localField: "_id",
           foreignField: "user_id",
-          as: "userRole"
-        }
+          as: "userRole",
+        },
       },
       {
-        $match: 
-        {
-            $and : [
-              {...matchObj },
-              {'isDelete' : false},
-              {'role' : {$nin : [1,2,3,4]}}
-              // {'userRole.isDelete' : true}
-            ]
+        $match: {
+          $and: [
+            { ...matchObj },
+            { isDelete: false },
+            { role: { $nin: [1, 2, 3, 4] } },
+            // {'userRole.isDelete' : true}
+          ],
         },
       },
       {
         $project: {
-          _id : '$_id',
-          name:  '$name'
-        }
-      }
+          _id: "$_id",
+          name: "$name",
+        },
+      },
     ]);
     return res.json(result);
   } catch (e) {
@@ -320,4 +336,4 @@ exports.storeUserList = async (req, res) => {
       error: "User Role not found" + e,
     });
   }
-}
+};
