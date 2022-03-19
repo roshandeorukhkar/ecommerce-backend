@@ -22,6 +22,7 @@ const specificationRoutes = require('./routes/specification');
 const custRoutes = require('./routes/cust');
 
 const userManagementRoutes = require('./routes/userManagement');
+const accessModuleRoutes = require('./routes/accessModule');
 
 // app
 const app = express();
@@ -33,7 +34,7 @@ app.locals.moment = require('moment');
 mongoose
     .connect(process.env.DATABASE, {
         useNewUrlParser: true,
-        useCreateIndex: true
+        // useCreateIndex: true
     })
     .then(() => console.log('DB Connected'));
 
@@ -52,12 +53,14 @@ app.use('/api', productRoutes);
 app.use('/api', braintreeRoutes);
 app.use('/api', orderRoutes);
 app.use('/api', manufacturerRoutes);
+app.use('/api', attributeRotes);
 app.use('/api', userManagementRoutes);
 app.use('/api', attributeRotes);
 app.use('/api', custRoutes);
 app.use('/api', userRoutes);
 app.use('/api', storeRoutes);
 app.use('/api', specificationRoutes);
+app.use('/api', accessModuleRoutes);
 
 const port = process.env.PORT || 8000;
 

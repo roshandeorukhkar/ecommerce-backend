@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
 
 const userRoleSchema = new mongoose.Schema(
     {
@@ -11,29 +10,35 @@ const userRoleSchema = new mongoose.Schema(
             required :  [true, 'Role name is required']
         },
         accessModuleId :{
-            type : String,
-            required :  [true, 'Please select module']
+            // type : String,
+            type : Array,
+            required :  true
         },
-        assingTo : {
-            type : String,
-            required :  [true, 'User Id is required']
+        user_id : {
+            type: mongoose.Types.ObjectId,
+            required:true
+        },
+        storeId : { 
+            type: mongoose.Types.ObjectId,
         },
         status :{
             type:Boolean ,
             required : true,
             default : true,
-            ref : "1 is active & 0 is not diactive",
+            // ref : "1 is active & 0 is not diactive",
+            Comment: "1 is active & 0 is not diactive"
         },
         isDelete :{
             required : true,
             type : Boolean,
             default : 0,
-            ref : "1 is deleted & 0 is not deleted",
+            // ref : "1 is deleted & 0 is not deleted",
+            Comment:  "1 is deleted & 0 is not deleted"
         },
         createdDate :{
             type : Date ,
             default : Date.now
         }
-    }
+    },{collection: 'userRoles' }
 );
-module.exports = mongoose.model("UserRole" ,userRoleSchema)
+module.exports = mongoose.model("userRole" ,userRoleSchema)

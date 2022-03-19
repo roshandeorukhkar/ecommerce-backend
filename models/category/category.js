@@ -1,22 +1,26 @@
 const mongoose = require("mongoose");
-
+const { Schema } = mongoose;
 const categorySchema = new mongoose.Schema(
     {
         name: {
             type: String,
             trim: true,
-            required: true,
+           // required: true,
             maxlength: 32,
         },
         description: {
             type: String,
+        },
+        subcategory: {
+            type: String,
+            //type: Schema.Types.ObjectId,
         },
         date_modified :{
             require : true,
             type : Date
         },
         deletedAt :{
-            require : true,
+            //require : true,
             type : Date,
         },
         status: {

@@ -7,22 +7,12 @@ const storeSchema = new mongoose.Schema(
         storeName:{
             type : String,
         },
-        ownerName :{
-            type:String,
+        storeId:{
+            type : String
         },
         status :{
             type:Boolean ,
             default : true,
-        },
-        userId :{
-            type:  Schema.Types.ObjectId,
-            ref: "user"
-        },
-        mobile :{
-            type:String ,
-        },
-        address :{
-            type:String,
         },
         isDelete :{
             required : false,

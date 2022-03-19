@@ -4,9 +4,7 @@ const { Schema } = mongoose;
 
 const storeUserSchema = new mongoose.Schema(
     {
-        // storeId: {
-        //     type: String,
-        // },
+
         email: {
             type: String,
         },
@@ -19,13 +17,31 @@ const storeUserSchema = new mongoose.Schema(
         },
         role: {
             type: Number,
-            default: 1
+            default: 3
         },
         date_added: {
             type: Date,
         },
         date_modified: {
             type: Date,
+        },
+        name:{
+            type:String,
+        },
+        address:{
+            type:String,
+        },
+        userId:{
+            type: Schema.Types.ObjectId,
+        },
+        mobile:{
+            type:String
+        },
+        isDelete :{
+            required : false,
+            type : Boolean,
+            default : 0,
+            ref : "1 is deleted & 0 is not deleted",
         },
         deletedAt: {
             type: Date,
@@ -35,6 +51,8 @@ const storeUserSchema = new mongoose.Schema(
             ref: "Store"
         }
     },
-    { timestamps: true }
+    { timestamps: true },
+    { collection: 'users' }
 );
+
 module.exports = mongoose.model('user', storeUserSchema);

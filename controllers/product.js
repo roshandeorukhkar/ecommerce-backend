@@ -33,9 +33,9 @@ exports.create = (req, res) => {
             });
         }
         // check for all fields
-        const { name, description, price, category, quantity, shipping } = fields;
+        const { name, description, price, category, quantity, shipping, specification } = fields;
 
-        if (!name || !description || !price || !category || !quantity || !shipping) {
+        if (!name || !description || !price || !category || !quantity || !shipping || !specification) {
             return res.status(400).json({
                 error: 'All fields are required'
             });
@@ -96,7 +96,7 @@ exports.update = (req, res) => {
         let product = req.product;
         product = _.extend(product, fields);
 
-        // 1kb = 1000
+          // 1kb = 1000
         // 1mb = 1000000
 
         if (files.photo) {
@@ -131,13 +131,10 @@ exports.update = (req, res) => {
 exports.list = (req, res) => {
     let order = req.query.order ? req.query.order : 'asc';
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-    let limit = req.query.limit ? parseInt(req.query.limit) : 6;
-
     Product.find()
         .select('-photo')
         .populate('category')
         .sort([[sortBy, order]])
-        .limit(limit)
         .exec((err, products) => {
             if (err) {
                 return res.status(400).json({

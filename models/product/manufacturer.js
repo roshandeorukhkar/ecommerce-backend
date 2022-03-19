@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const manufacturerSchema = new mongoose.Schema(
     {
         manufacturerName: {
-            unique : true ,
-            require : true,
+           // unique : true ,
+           // require : true,
             type : String
         },
          date_added :{

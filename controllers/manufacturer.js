@@ -1,22 +1,20 @@
 
 const Manufacturer = require('../models/product/manufacturer');
- const { errorHandler } = require('../helpers/dbErrorHandler');
+const { errorHandler } = require('../helpers/dbErrorHandler');
 
 
-exports.productById = (req, res, next, id) => {
+exports.manufacturerById = (req, res, next, id) => {
     Manufacturer.findById(id)
-        //.populate('category')
         .exec((err, manufacturer) => {
             if (err || !manufacturer) {
                 return res.status(400).json({
-                    error: 'manufacturer not found'
+                    error: 'Manufacturer not found'
                 });
             }
             req.manufacturer = manufacturer;
             next();
         });
 };
-
 /* insert into db table here  */
 exports.create = (req, res) => {
     console.log(req.body)
@@ -64,8 +62,6 @@ exports.updateDelete = (req, res) => {
 };
 
 exports.updateStatus = (req, res) => {
-    console.log("==========",req)
-
     const manufacturer = req.manufacturer;
     manufacturer.status = req.body.manufacturerName;
     manufacturer.save((err, data) => {
@@ -101,7 +97,7 @@ exports.remove = (req, res) => {
             });
         }
         res.json({
-            message: 'Delet Customer table'
+            message: 'Delet Manufacture table'
         });
     });
 };
@@ -116,7 +112,7 @@ exports.list = (req, res) => {
         .exec((err, manufacturer) => {
             if (err) {
                 return res.status(400).json({
-                    error: 'manufacturer not found'
+                    error: 'Manufacturer not found'
                 });
             }
             res.json(manufacturer);

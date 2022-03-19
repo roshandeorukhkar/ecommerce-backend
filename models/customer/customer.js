@@ -4,29 +4,27 @@ const uuidv1 = require('uuid/v1');
 
 const customerSchema = new mongoose.Schema(
     {
-        name: {
+        firstName: {
             type: String,
-            trim: true,
-            required: true,
-            maxlength: 32
+            trim: true
+        },
+        lastName: {
+            type: String,
+            trim: true
         },
         mobile:{
-            type: Number
+            type: Number,
+            index : {
+                unique: true
+            }
         },
         email: {
             type: String,
-            trim: true,
-            required: true,
-            unique: true
+            trim: true
+            //required: true,
+            //unique: true
         },
         hashed_password: {
-            type: String,
-            required: true
-        },
-        firstName: {
-            type: String,
-        },
-        lastName: {
             type: String,
         },
         image: {
@@ -51,9 +49,14 @@ const customerSchema = new mongoose.Schema(
         },
         date_added: {
             type: Date,
+            default : Date.now
         },
         date_modified: {
             type: Date,
+        },
+        isDelete:{
+            type : Boolean,
+            default : false
         },
         deletedAt: {
             type: Date,
@@ -90,4 +93,21 @@ customerSchema.methods = {
         }
     }
 };
-module.exports = mongoose.model("Customer" ,customerSchema)
+
+// customerSchema.pre('firstName').validate(
+//   async firstName =>{
+//       const name = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+//       return name;
+//   }  
+// )
+
+
+module.exports = mongoose.model("Customer" ,customerSchema);
+
+customerSchema.path('mobile').validate(
+    async mobile =>{
+        const mobileCount = await mongoose.models.Customer.countDocuments({
+            mobile
+        })
+        return !mobileCount
+    }, 'Mobile already exists');
