@@ -51,6 +51,7 @@ module.exports = mongoose.model("Product", productSchema);
 
 
 
+
 // old product schema
 // const mongoose = require("mongoose");
 // const { ObjectId } = mongoose.Schema;
