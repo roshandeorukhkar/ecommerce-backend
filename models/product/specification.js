@@ -12,7 +12,7 @@ const specificationSchema = new mongoose.Schema(
             type : Date 
         },
         specification_type: {
-            type: String,
+            type:Array,
             trim: true,
             required: true
         },
