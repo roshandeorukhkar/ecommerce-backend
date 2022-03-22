@@ -54,7 +54,11 @@ const customerSchema = new mongoose.Schema(
         date_modified: {
             type: Date,
         },
-        isDelete:{
+        isOtpVerified : {
+            type: Boolean,
+            default : false
+        },
+        isDelete : {
             type : Boolean,
             default : false
         },
