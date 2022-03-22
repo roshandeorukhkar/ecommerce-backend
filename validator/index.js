@@ -167,7 +167,7 @@ exports.userRoleValidator = (req, res, next) =>{
 exports.specificationValidator = (req, res, next) => {
     const errors_data = {};
     req.check('manufacturerName', 'Specification name is required').notEmpty();
-    req.check('specification_type', 'Specification value is required').notEmpty();
+    //req.check('specification_type', 'Specification value is required').notEmpty();
     const errors = req.validationErrors();
     if (errors) 
     {

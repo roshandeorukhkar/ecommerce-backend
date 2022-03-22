@@ -9,6 +9,15 @@ const productSchema = new mongoose.Schema(
             required: true,
             //maxlength: 3
         },
+        height: {
+            type: String
+        },
+        width: {
+            type: String
+        },
+        leanth: {
+            type: String
+        },
         description: {
             type: String,
             required: true,
@@ -34,6 +43,14 @@ const productSchema = new mongoose.Schema(
         sold: {
             type: Number,
             default: 0
+        },
+        type: {
+            type: Number,
+            default: 0
+        },
+        status: {
+            type: Number,
+            default: 1
         },
         photo: {
             data: Buffer,
