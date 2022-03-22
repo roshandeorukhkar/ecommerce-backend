@@ -200,3 +200,25 @@ exports.categoryValidator = (req, res, next) => {
     }
     next();
 };
+//
+exports.productValidator = (req, res, next) => {
+  const errors_data = {};
+  req.check('name', 'product name is required').notEmpty();
+  req.check('price', 'price is required').notEmpty();
+  const errors = req.validationErrors();
+  // if (errors) {
+  //     const firstError = errors.map(error => error.msg)[0];
+  //     return res.status(400).json({ error: firstError });
+  // }
+  if (errors) {
+      const firstError = errors.map((error) =>
+      errors_data[error.param] = error.msg
+      );
+      return res.status(400).json({ 
+          errors: errors_data,
+          status: false,
+          message: "Something went wrong"
+      });
+  }
+  next();
+};
