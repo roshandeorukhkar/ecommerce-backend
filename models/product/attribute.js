@@ -23,7 +23,7 @@ const attributeSchema = new mongoose.Schema(
             type: String,
         },
         dimension:{
-         type: String,
+         type: Array,
         },
         status: {
             type: Number,
