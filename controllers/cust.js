@@ -116,10 +116,11 @@ exports.list = (req, res) => {
 
    Customer.find()
        .select('-photo')
-       .populate('category')
+    //    .populate('category')
        .sort([[sortBy, order]])
        .limit(limit)
        .exec((err, customer) => {
+           console.log(err)
            if (err) {
                return res.status(400).json({
                    error: 'customer not found'
