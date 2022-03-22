@@ -78,6 +78,7 @@ exports.maniValidator = (req, res, next) => {
 };
 //userManagementvalidation
 exports.userValidator = (req, res, next) => {
+  const errors_data = {};
   req.check("name", "Name is required").notEmpty();
   req
     .check("email", "Email must be between 3 to 32 characters")
@@ -95,11 +96,41 @@ exports.userValidator = (req, res, next) => {
   const errors = req.validationErrors();
 
   if (errors) {
-    const firstError = errors.map((error) => error.msg)[0];
-    return res.status(400).json({ error: firstError });
+    const firstError = errors.map((error) => 
+    errors_data[error.param] = error.msg
+    );
+    return res.status(400).json({ error: errors_data });
   }
   next();
 };
+
+//userManagementvalidation
+exports.userUpdateValidator = (req, res, next) => {
+  const errors_data = {};
+  req.check("name", "Name is required").notEmpty();
+  req
+    .check("email", "Email must be between 3 to 32 characters")
+    .matches(/.+\@.+\..+/)
+    .withMessage("Email must contain @")
+    .isLength({
+      min: 4,
+      max: 32,
+    });
+  // req.check("mobile", "Mobile no must be 10 digit").isLength({
+  //   min: 10,
+  //   max: 10,
+  // });
+  const errors = req.validationErrors();
+
+  if (errors) {
+    const firstError = errors.map((error) => 
+    errors_data[error.param] = error.msg
+    );
+    return res.status(400).json({ error: errors_data });
+  }
+  next();
+};
+
 
 exports.attributeValidator = (req, res, next) => {
     const errors_data = {};
