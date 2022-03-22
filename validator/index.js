@@ -11,12 +11,12 @@ exports.userSignupValidator = (req, res, next) => {
   .isLength({
     min: 3,
     max: 25
-  }).withMessage("Name must be min 3 /max 25 charachter");
+  });
   req.check("lastName", "Last name is required.").notEmpty()
   .isLength({
     min: 3,
     max: 25
-  }).withMessage("Name must be min 3 /max 25 charachter");
+  });
     const errors = req.validationErrors();
   if (errors) {
     const firstError = errors.map(

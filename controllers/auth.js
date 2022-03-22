@@ -64,9 +64,19 @@ exports.signup = async (req, res) => {
 exports.otpVerification = async (req, res) => {
   try {
     const { mobileNo, otp } = req.body;
+    console.log(req.body);
     const genratedOtp = await OtpVerify.findOne({ mobileNo: mobileNo });
     const user = await User.findOne({ mobile: mobileNo });
     if (genratedOtp.otp == otp) {
+      console.log(req.body)
+      if (req.body.formName === 'registrion') {
+        const userOtpVerified = await User.findOneAndUpdate(
+          { mobile: mobileNo },
+          { isOtpVerified: true },
+          { new: true }
+        );
+        
+      }
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
       res.cookie("t", token, { expire: new Date() + 9999 });
       const _id = user._id;
@@ -89,7 +99,7 @@ exports.otpVerification = async (req, res) => {
     } else {
       return res.json({
         status: false,
-        message: "Mobile No change and resend OTP",
+        message: "Please enter valid OTP.",
       });
     }
   } catch (error) {
@@ -104,30 +114,69 @@ exports.otpVerification = async (req, res) => {
 exports.signin = async (req, res) => {
   try {
     console.log("checkData", req.body);
-    const { mobile , otp } = req.body;
-    const existUser = await User.findOne({ mobile : mobile });
-    if(existUser){
-      console.log("existUser",existUser);
+    const { mobile, otp } = req.body;
+    const existUser = await User.findOne({
+      mobile: mobile,
+      isOtpVerified: true,
+    });
+    const NotVerifiedUser = await User.findOne({
+      mobile: mobile,
+      isOtpVerified: false,
+    });
+    if (NotVerifiedUser) {
+      await User.deleteOne({ _id: NotVerifiedUser });
+      const deleteOtpVerifiedEtry = await OtpVerify.findOne(
+        { mobile: mobile}
+      )
+      await OtpVerify.deleteMany({ mobileNo : mobile });
+    }
+    if (existUser) {
       const otpData = await OtpVerify.findOneAndUpdate(
-        {mobileNo : mobile},
-        {otp : otp},
-        {new : true}
+        { mobileNo: mobile },
+        { otp: otp },
+        { new: true }
       );
-      console.log("otpData");
       return res.json({
-        status : true,
-        otpData : otpData
-      })
-    } else{
+        status: true,
+        otpData: otpData,
+      });
+    } else {
       return res.json({
-        status : false,
-        errors: "Mobile No is not exist please register and login."
-     })
+        status: false,
+        errors: "Mobile No is not exist.Please register and login.",
+      });
     }
   } catch (error) {
     console.log("Error: ", error);
   }
 };
+
+exports.resendOtp = async (req, res) =>{
+  try{
+    const { mobile, otp } = req.body;
+    const existUser = await User.findOne({
+      mobile: mobile,
+    });
+    if (existUser) {
+      const otpData = await OtpVerify.findOneAndUpdate(
+        { mobileNo: mobile },
+        { otp: otp },
+        { new: true }
+      );
+      return res.json({
+        status: true,
+        otpData: otpData,
+      });
+    } else {
+      return res.json({
+        status: false,
+        errors: "Somthing is wrong.",
+      });
+    }
+  }catch (error) {
+    console.log("Error: ", error);
+  }
+}
 
 exports.signinOld = (req, res) => {
   // find the user based on email
