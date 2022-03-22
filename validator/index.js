@@ -104,7 +104,7 @@ exports.userValidator = (req, res, next) => {
 exports.attributeValidator = (req, res, next) => {
     const errors_data = {};
     req.check('attributeName', 'Attribute name is required').notEmpty();
-    req.check('dimension', 'Attribute Value is required').notEmpty();
+  //  req.check('dimension', 'Attribute Value is required').notEmpty();
     const errors = req.validationErrors();
     if (errors) 
     {
