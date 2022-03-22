@@ -9,6 +9,9 @@ const productSchema = new mongoose.Schema(
             required: true,
             //maxlength: 3
         },
+        attribute:{
+            type:String,
+        },
         height: {
             type: String
         },
