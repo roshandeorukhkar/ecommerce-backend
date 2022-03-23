@@ -24,6 +24,7 @@ const attributeSchema = new mongoose.Schema(
         },
         dimension:{
          type: Array,
+        //default: []
         },
         status: {
             type: Number,
