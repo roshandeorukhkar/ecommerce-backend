@@ -234,8 +234,8 @@ exports.categoryValidator = (req, res, next) => {
 //
 exports.productValidator = (req, res, next) => {
   const errors_data = {};
-  req.check('name', 'product name is required').notEmpty();
-  req.check('price', 'price is required').notEmpty();
+  //req.check('name', 'product name is required').notEmpty();
+  //req.check('price', 'price is required').notEmpty();
   const errors = req.validationErrors();
   // if (errors) {
   //     const firstError = errors.map(error => error.msg)[0];
