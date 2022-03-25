@@ -7,7 +7,7 @@ const { userById } = require("../controllers/customer");
 const { productValidator } = require("../validator");
 
 router.get("/product/:productId", read);
-router.post("/product/create/",productValidator, create);
+router.post("/product/create/", create);
 router.delete("/product/:productId/", remove );
 router.put( "/product/:productId/", update);
 
