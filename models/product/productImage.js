@@ -3,25 +3,26 @@ const { ObjectId } = mongoose.Schema;
 
 const productImageSchema = new mongoose.Schema(
     {
-        productId :{
-            required : true ,
-            type : Number
-        },
+       
         image :{
-            required : true ,
+           // required : true ,
             type: String
         },
         sort_order:{
-            required : true ,
+            //required : true ,
             type:String
         },
         date_added :{
-            required : true ,
+        //required : true ,
             type:Date
         },
         date_modified :{
-            required : true ,
+            //required : true ,
             type:Date
+        },
+        productId: {
+            type: Schema.Types.ObjectId,
+            ref: "Product"
         }
     }
 );

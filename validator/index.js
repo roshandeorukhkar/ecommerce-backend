@@ -133,7 +133,7 @@ exports.userUpdateValidator = (req, res, next) => {
 exports.attributeValidator = (req, res, next) => {
     const errors_data = {};
     req.check('attributeName', 'Attribute name is required').notEmpty();
-    req.check('dimension', 'Attribute Value is required').notEmpty();
+  //  req.check('dimension', 'Attribute Value is required').notEmpty();
     const errors = req.validationErrors();
     if (errors) 
     {
@@ -196,7 +196,7 @@ exports.userRoleValidator = (req, res, next) =>{
 exports.specificationValidator = (req, res, next) => {
     const errors_data = {};
     req.check('manufacturerName', 'Specification name is required').notEmpty();
-    //req.check('specification_type', 'Specification value is required').notEmpty();
+    req.check('specification_type', 'Specification value is required').notEmpty();
     const errors = req.validationErrors();
     if (errors) 
     {
@@ -228,4 +228,39 @@ exports.categoryValidator = (req, res, next) => {
         });
     }
     next();
+};
+// products
+exports.productValidator = (req, res, next) => {
+  const errors_data = {};
+  req.check('price', 'price is required').notEmpty();
+  const errors = req.validationErrors();
+  if (errors) 
+    {
+        const firstError = errors.map((error) =>
+        errors_data[error.param] = error.msg
+        );
+        return res.status(400).json({ 
+            errors: errors_data,
+            status: false,
+            message: "Something went wrong"
+        });
+    }
+    next();
+};
+
+exports.proValidator = (req, res, next) => {
+  const errors_data = {};
+  req.check('price', 'Price is required').notEmpty();
+  const errors = req.validationErrors();
+  if (errors) {
+      const firstError = errors.map((error) =>
+      errors_data[error.param] = error.msg
+      );
+      return res.status(400).json({ 
+          errors: errors_data,
+          status: false,
+          message: "Something went wrong"
+      });
+  }
+  next();
 };

@@ -21,7 +21,7 @@ exports.productById = (req, res, next, id) => {
 
 /* insert into db table here  */
 exports.create = (req, res) => {
-    console.log("jsjhfjsf",req.body)
+   // console.log("jsjhfjsf",req.body)
     const product = new Specification(req.body);
     product.save((err, data) => {
         if (err) {

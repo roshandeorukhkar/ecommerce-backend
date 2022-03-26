@@ -106,10 +106,10 @@ exports.create = (req, res) => {
 exports.list = (req, res) => {
         
     let order = req.query.order ? req.query.order : 'asc';
-    let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+   //let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
     
     Attribute.find()
-        .sort([[sortBy, order]])
+        .sort([[order]])
         .exec((err, attribute) => {
             if (err) {
                 return res.status(400).json({
