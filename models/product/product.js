@@ -35,6 +35,9 @@ const productSchema = new mongoose.Schema(
         specification:{
             type:String,
         },
+        manufactures:{
+            type:String,
+        },
         category: {
             type: ObjectId,
             ref: "Category",
