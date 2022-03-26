@@ -23,6 +23,7 @@ const custRoutes = require('./routes/cust');
 
 const userManagementRoutes = require('./routes/userManagement');
 const accessModuleRoutes = require('./routes/accessModule');
+const settingRoutes = require('./routes/settingRoutes');
 
 // app
 const app = express();
@@ -61,6 +62,7 @@ app.use('/api', userRoutes);
 app.use('/api', storeRoutes);
 app.use('/api', specificationRoutes);
 app.use('/api', accessModuleRoutes);
+app.use('/api', settingRoutes);
 
 const port = process.env.PORT || 8000;
 

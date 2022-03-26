@@ -1,5 +1,3 @@
-const Customer = require("../models/customer/customer");
-
 exports.userSignupValidator = (req, res, next) => {
   const errors_data = {};
   req.check("mobile", "Mobile no is required.").notEmpty()
