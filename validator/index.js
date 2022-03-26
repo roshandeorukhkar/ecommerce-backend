@@ -233,7 +233,7 @@ exports.categoryValidator = (req, res, next) => {
 // products
 exports.productValidator = (req, res, next) => {
   const errors_data = {};
-  req.check('name', 'product name is required').notEmpty();
+  req.check('price', 'price is required').notEmpty();
   const errors = req.validationErrors();
   if (errors) 
     {
@@ -247,4 +247,21 @@ exports.productValidator = (req, res, next) => {
         });
     }
     next();
+};
+
+exports.proValidator = (req, res, next) => {
+  const errors_data = {};
+  req.check('price', 'Price is required').notEmpty();
+  const errors = req.validationErrors();
+  if (errors) {
+      const firstError = errors.map((error) =>
+      errors_data[error.param] = error.msg
+      );
+      return res.status(400).json({ 
+          errors: errors_data,
+          status: false,
+          message: "Something went wrong"
+      });
+  }
+  next();
 };
