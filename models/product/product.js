@@ -60,7 +60,8 @@ const productSchema = new mongoose.Schema(
         },
         photo: {
             data: Buffer,
-            contentType: String
+            contentType: Array
+           // contentType: String
         },
         shipping: {
            // required: false,

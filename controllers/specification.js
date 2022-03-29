@@ -52,6 +52,19 @@ exports.update = (req, res) => {
         res.json(data);
     });
 };
+
+exports.updateDelete = (req, res) => {
+    const product = req.product;
+    product.deletedAt = req.body.manufacturerName;
+    product.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
 /*
 exports.update = (req, res) => {
     let product = req.product;
