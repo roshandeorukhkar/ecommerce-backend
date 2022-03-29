@@ -92,6 +92,19 @@ exports.updateStatus = (req, res) => {
     });
 };
 
+exports.updateDelete = (req, res) => {
+    const category = req.category;
+    category.deletedAt = req.body.manufacturerName;
+    category.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
 exports.changeStatus = (req, res) => {
     console.log("==========",req.category)
     const category = req.category;

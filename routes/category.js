@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { create, remove, remove1, categoryById, read, updateStatus,changeStatus, update, list } = require('../controllers/category');
+const { create, remove, remove1, categoryById, read, updateStatus,changeStatus, update, list, updateDelete } = require('../controllers/category');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/customer');
 const { categoryValidator } = require("../validator");
@@ -13,6 +13,8 @@ router.post('/category/create',categoryValidator, create);
 router.delete("/category/:categoryId", remove);
 
 router.delete("/categorys/:categoryId", remove1);
+
+router.post("/categorys/delete/:categoryId", updateDelete);
 
 router.post("/category/status/:categoryId", updateStatus);
 

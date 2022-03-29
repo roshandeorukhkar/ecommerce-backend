@@ -20,8 +20,8 @@ const categorySchema = new mongoose.Schema(
             type : Date
         },
         deletedAt :{
-            //require : true,
-            type : Date,
+            require : true,
+            type : Date
         },
         status: {
             type: Number,
