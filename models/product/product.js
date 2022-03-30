@@ -5,13 +5,17 @@ const productSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-           // trim: true,
-           // required: true,
-            //maxlength: 3
+       
+        },
+        brand: {
+            type: String,
         },
         attribute:{
             type:String,
         },
+        dimension:{
+            type: Array,
+           },
         height: {
             type: String
         },
@@ -23,14 +27,9 @@ const productSchema = new mongoose.Schema(
         },
         description: {
             type: String,
-          //  required: true,
-            //maxlength: 2000
         },
         price: {
             type: Number,
-            //trim: true,
-           // required: true,
-           // maxlength: 32
         },
         specification:{
             type:String,
@@ -61,7 +60,6 @@ const productSchema = new mongoose.Schema(
         photo: {
             data: Buffer,
             contentType: Array
-           // contentType: String
         },
         shipping: {
            // required: false,
