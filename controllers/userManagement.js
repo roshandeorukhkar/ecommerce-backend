@@ -50,6 +50,32 @@ exports.update = (req, res) => {
    });
 };
 
+exports.updateStatus = (req, res) => {
+    const user = req.user;
+    user.status = req.body.name;
+    user.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
+exports.changeStatus = (req, res) => {
+    const user = req.user;
+    user.status = req.body.name;
+    user.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
 exports.updateDelete = (req, res) => {
    const user = req.user;
    user.deletedAt = req.body.manufacturerName;
