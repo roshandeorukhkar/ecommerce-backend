@@ -4,18 +4,15 @@ const sliderModule = new mongoose.Schema(
     {
         title : {
             type : String,
-            required: true
         },
         image: {
-            data: Buffer,
-            contentType: String
+           type : String,
         },
         link: {
             type: String
         },
         sequence: {
             type: String,
-            required: true
         },
         description: {
             type: String,
