@@ -2,50 +2,70 @@ const formidable = require("formidable");
 var path = require("path");
 const fs = require("fs");
 const _ = require("lodash");
-const { errorHandler } = require('../helpers/dbErrorHandler');
+const { errorHandler } = require("../helpers/dbErrorHandler");
 const sliderSchema = require("../models/setting/sliderModule");
 
-exports.save =  async (req, res, next) =>{
-  try{
-    if(req.file){
-        var imageData = new sliderSchema({
-          title: req.body.title,
-          image : req.file.filename,
-          link : req.body.link,
-          sequence: req.body.sequence,
-          description:req.body.description
-        });
-        const result = await imageData.save();
-        return res.json({
-          status: true,
-          message: "Slider save successfully",
-        });
-    }else{
+exports.save = async (req, res, next) => {
+  try {
+    if (req.file) {
+      var imageData = new sliderSchema({
+        title: req.body.title,
+        image: req.file.filename,
+        link: req.body.link,
+        sequence: req.body.sequence,
+        description: req.body.description,
+      });
+      const result = await imageData.save();
+      return res.json({
+        status: true,
+        message: "Slider save successfully",
+      });
+    } else {
       return res.status(400).json({
         status: false,
         message: "Something went wrong for update",
-        errors: { 'sliderError' : "Please select image." }
+        errors: { sliderError: "Please select image." },
       });
     }
-  }catch{
+  } catch {
     return res.status(400).json({
       status: false,
       message: "Something went wrong for update",
       error: errorHandler(err_),
     });
   }
-}
+};
 
-exports.list = async (req , res) => {
-  try{
-    const result = await sliderSchema.find({isDelete : false});
+exports.list = async (req, res) => {
+  try {
+    const result = await sliderSchema.find({ isDelete: false });
     return res.json({
-      result
+      result,
     });
-  }catch (error) {
+  } catch (error) {
     return res.status(400).json({
       status: false,
       message: "Something went wrong for update",
     });
   }
-}
+};
+
+exports.remove = async (req, res) => {
+  try {
+    var sliderDetails = {
+      isDelete: true,
+    };
+    const filter = { _id: req.params.id };
+    const result_ = await sliderSchema.findOneAndUpdate(filter, sliderDetails);
+    console.log(result_, "result_");
+    return res.json({
+      status: true,
+      message: "Slider image is deleted successfully",
+      result: result_,
+    });
+  } catch (e) {
+    return res.status(400).json({
+      error: "Store not found" + e,
+    });
+  }
+};
