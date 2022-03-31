@@ -11,7 +11,7 @@ const {save ,list} = require("../controllers/slider");
 //update data cb=callback
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        const dir = '../ecommerce-admin/public/images';
+        const dir = '../ecommerce-admin/public/slider-images';
         if(!fs.existsSync(dir)){
             fs.mkdirSync(dir);
         }
