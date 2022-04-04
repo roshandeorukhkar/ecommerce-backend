@@ -5,7 +5,6 @@ const { sliderValidition } = require("../validator/settingValidator");
 const multer = require('multer');
 const { v4: uuidv4 } =  require('uuid');
 const path = require("path");
-const { fstat } = require("fs");
 const {save ,list ,remove } = require("../controllers/slider");
 
 //update data cb=callback
@@ -32,7 +31,6 @@ const storage = multer.diskStorage({
 }
 
 let upload = multer({ storage: storage, fileFilter:fileFilter}).single('sliderImg');
-
 router.post("/saveSlider",  upload , save);
 router.get("/sliderList",list)
 router.get("/deleteSlider/:id",remove)
