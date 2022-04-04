@@ -337,3 +337,47 @@ exports.storeUserList = async (req, res) => {
     });
   }
 };
+
+exports.updateStatus = async (req, res) => {
+  console.log("status................",req.params.storeId)
+  try{
+    var updateData = {
+      status : false
+    };
+    const filter = { _id : req.params.storeId };
+    const result_ = await StoreSchema.findOneAndUpdate(
+      filter,
+      updateData
+      );
+      console.log(result_);
+      return res.json({
+        status: true,
+        message: "Status Updated successfully",
+        result: result_,
+      });
+    }catch(e){
+      console.log(e);
+    }
+    };
+    
+    exports.changeStatus =async (req, res) => {
+      console.log("status................",req.params.storeId)
+      try{
+        var updateData = {
+          status : true
+        };
+        const filter = { _id : req.params.storeId };
+        const result_ = await StoreSchema.findOneAndUpdate(
+          filter,
+          updateData
+          );
+          console.log(result_);
+          return res.json({
+            status: true,
+            message: "Status Updated successfully",
+            result: result_,
+          });
+        }catch(e){
+          console.log(e);
+        }
+};
