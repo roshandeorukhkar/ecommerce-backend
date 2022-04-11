@@ -15,7 +15,6 @@ exports.categoryById = (req, res, next, id) => {
 };
 
 exports.create = (req, res) => {
-   // console.log(111111)
     console.log(req.body)
     const category = new Category(req.body);
     category.save((err, data) => {
