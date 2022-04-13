@@ -15,7 +15,7 @@ exports.manufacturerById = (req, res, next, id) => {
             next();
         });
 };
-/* insert into db table here  */
+/* insert into db table   */ // 
 exports.create = (req, res) => {
     console.log(req.body)
     const manufacturer = new Manufacturer(req.body);

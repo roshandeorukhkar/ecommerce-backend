@@ -266,9 +266,44 @@ exports.getUserRoleListData = async (req, res) => {
 
 exports.getUserRoleByIdData = async (req, res) => {
   try {
-    const roleId = req.params.roleId;
-    const result = await UserRoleinSchema.findById(roleId);
-    return res.json(result);
+    const roleId = mongoose.Types.ObjectId(req.params.roleId);
+    const checkResult =  await UserRoleinSchema.aggregate([
+      {
+        $match : {
+          _id : roleId
+        }
+      },
+     {
+        $lookup: {
+        from : User.collection.name,
+        localField : "user_id",
+        foreignField : "_id",
+        as: "user"
+      },
+      
+    },
+    {
+      $lookup:{
+        from : AccessModuleSchema.collection.name,
+        localField : 'accessModuleId',
+        foreignField: "name",
+        as :"module"
+      }
+    },
+    {
+      $project:{
+        _id : 1,
+        roleName : 1,
+        accessModuleId : 1,
+        'user.name' : 1,
+        'user._id' : 1,
+        'module._id' :1,
+        'module.name' : 1 ,
+        'module.label' : 1 ,
+      }
+    }
+    ]);
+    return res.json(checkResult[0]);
   } catch (e) {
     return res.status(400).json({
       error: "store not found" + e,
@@ -303,7 +338,6 @@ exports.storeUserList = async (req, res) => {
     let matchObj = {};
     const storeId = req.params.storeId;
     matchObj["storeId"] = mongoose.Types.ObjectId(storeId);
-    console.log(matchObj);
     const result = await User.aggregate([
       {
         $lookup: {
