@@ -5,15 +5,14 @@ const productSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-       
         },
         brand: {
             type: String,
         },
         attribute:{
-            type:String,
+            type:Array,
         },
-        dimension:{
+        dimanstions:{
             type: Array,
            },
         height: {
@@ -59,7 +58,7 @@ const productSchema = new mongoose.Schema(
         },
         photo: {
             data: Buffer,
-            contentType: Array
+            contentType: String
         },
         shipping: {
            // required: false,

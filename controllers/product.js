@@ -23,49 +23,63 @@ exports.read = (req, res) => {
     return res.json(req.product);
 };
 
+// exports.create = (req, res) => {
+// //console.log(req)    
+//     let form = new formidable.IncomingForm();
+//     form.keepExtensions = true;
+//     form.parse(req, (err, fields, files) => {
+//         if (err) {
+//             return res.status(400).json({
+//                 error: 'Image could not be uploaded'
+//             });
+//         }
+//     //     // check for all fields
+//         const { name} = fields;
+
+//         if (!name ) {
+//             return res.status(400).json({
+//                 error: 'All fields are required'
+//             });
+//         }
+
+//          let product = new Product(fields);
+
+//     //     // 1kb = 1000
+//     //     // 1mb = 1000000
+
+//         if (files.photo) {
+//             // console.log("FILES PHOTO: ", files.photo);
+//             if (files.photo.size > 100000000){
+//                 return res.status(400).json({
+//                     error: 'Image should be less than 10mb in size'
+//                 });
+//             }
+//             product.photo.data = fs.readFileSync(files.photo.path);
+//             product.photo.contentType = files.photo.type;
+//         }
+
+//         product.save((err, result) => {
+//             if (err) {
+//                 console.log('PRODUCT CREATE ERROR ', err);
+//                 return res.status(400).json({
+//                     error: errorHandler(err)
+//                 });
+//             }
+//             res.json(result);
+//         });
+//     });
+// };
+
 exports.create = (req, res) => {
-    let form = new formidable.IncomingForm();
-    form.keepExtensions = true;
-    form.parse(req, (err, fields, files) => {
+    console.log(req)
+    const product = new Product(req.body);
+    product.save((err, data) => {
         if (err) {
             return res.status(400).json({
-                error: 'Image could not be uploaded'
+                error: errorHandler(err)
             });
         }
-        // check for all fields
-        const { name, description, price, category, quantity, shipping, specification, attribute, manufactures} = fields;
-
-        if (!name || !description || !price || !category || !quantity || !shipping || !specification || !attribute || !manufactures) {
-            return res.status(400).json({
-                error: 'All fields are required'
-            });
-        }
-
-        let product = new Product(fields);
-
-        // 1kb = 1000
-        // 1mb = 1000000
-
-        if (files.photo) {
-            // console.log("FILES PHOTO: ", files.photo);
-            if (files.photo.size > 100000000) {
-                return res.status(400).json({
-                    error: 'Image should be less than 10mb in size'
-                });
-            }
-            product.photo.data = fs.readFileSync(files.photo.path);
-            product.photo.contentType = files.photo.type;
-        }
-
-        product.save((err, result) => {
-            if (err) {
-                console.log('PRODUCT CREATE ERROR ', err);
-                return res.status(400).json({
-                    error: errorHandler(err)
-                });
-            }
-            res.json(result);
-        });
+        res.json({ data });
     });
 };
 

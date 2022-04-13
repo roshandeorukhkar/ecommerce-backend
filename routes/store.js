@@ -35,4 +35,13 @@ router.get("/deleteUserRoleData/:userRoleId" ,deleteUserRole);
 const { storeUserList } = require("../controllers/store");
 router.get("/storeUserList/:storeId" , storeUserList);
 
+// validation 
+const { updateStatus } = require("../controllers/store");
+router.get("/store/status/:storeId" , updateStatus);
+
+const { changeStatus } = require("../controllers/store");
+router.get("/store/statusChange/:storeId" , changeStatus);
+
+
+
 module.exports = router;
