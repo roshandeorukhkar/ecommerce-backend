@@ -12,9 +12,6 @@ const productSchema = new mongoose.Schema(
         attribute:{
             type:Array,
         },
-        dimanstions:{
-            type: Array,
-           },
         height: {
             type: String
         },
@@ -31,7 +28,7 @@ const productSchema = new mongoose.Schema(
             type: Number,
         },
         specification:{
-            type:String,
+            type:Array,
         },
         manufactures:{
             type:String,
@@ -39,7 +36,9 @@ const productSchema = new mongoose.Schema(
         category: {
             type: ObjectId,
             ref: "Category",
-           // required: true
+        },
+        subcategory: {
+            type: String,
         },
         quantity: {
             type: Number
@@ -61,6 +60,9 @@ const productSchema = new mongoose.Schema(
             contentType: String
         },
         productImg: {
+            type :  Array
+        },
+        image: {
             type :  Array
         },
         shipping: {
