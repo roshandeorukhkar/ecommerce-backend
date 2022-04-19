@@ -71,8 +71,10 @@ exports.read = (req, res) => {
 // };
 
 exports.create = (req, res) => {
-    console.log(req)
     const product = new Product(req.body);
+  //  console.log("-----",req);
+  //  console.log( "chekk",req.body.image);
+   // return false;
     product.save((err, data) => {
         if (err) {
             return res.status(400).json({
