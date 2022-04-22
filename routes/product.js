@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+// var _config  = require("./config");
+// var upload   = multer({ dest: _config.tempDir })
+
 
 const { create, productById, read, remove, update, list, listRelated, listCategories, listBySearch, photo, listSearch } = require("../controllers/product");
 const { requireSignin, isAuth } = require("../controllers/auth");
@@ -9,10 +12,10 @@ const { productValidator } = require("../validator");
 
 const storage = multer.memoryStorage();
 
-//let upload = multer({ storage: storage}).single("image[0].pic[0]");
+let upload = multer({ storage: storage}).any();
 
 router.get("/product/:productId", read);
-router.post("/product/create/", create);
+router.post("/product/create/",upload, create);
 router.delete("/product/:productId/", remove );
 router.put( "/product/:productId/", update);
 

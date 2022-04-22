@@ -3,6 +3,17 @@ const _ = require('lodash');
 const fs = require('fs');
 const Product = require('../models/product/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
+const { uploadBytesResumable, getDownloadURL } = require("firebase/storage");
+const { ref } = require("@firebase/storage");
+
+const firebase = require("./dbFirebase");
+const firestore = firebase.firestore();
+const storage = firebase.storage().ref();
+global.XMLHttpRequest = require("xhr2");
+
+var path = require("path");
+const firebaseImgUpload = require("./firebaseImgUpload");
+
 
 exports.productById = (req, res, next, id) => {
     Product.findById(id)
@@ -70,26 +81,87 @@ exports.read = (req, res) => {
 //     });
 // };
 
-exports.create = (req, res) => {
-    const product = new Product(req.body);
-  //  console.log("-----",req);
-  //  console.log( "chekk",req.body.image);
-   // return false;
-    product.save((err, data) => {
-        if (err) {
-            return res.status(400).json({
-                error: errorHandler(err)
-            });
-        }
-        res.json({ data });
+function getFileList(directory, extension) {
+    console.log("directory" ,directory )
+    let dir = fs.readdirSync(directory);
+    let filelist = dir.filter( elm => elm.match(new RegExp(`.*\.(${extension})`, 'ig')));
+    return filelist.map(file => {
+      return {
+        filename: file,
+        content: fs.readFileSync(path.join(directory, file)).toString()
+      }
     });
-};
+  }
+
+exports.create = async (req, res) => {
+    try{
+        if(req.files){
+        let k = 0;
+        let imageArray = {};
+        for(let i = 0; i <= req.body.imgLength ; i++){
+            let imgColorArray = [];
+            for( j = 0 ; j <= req.body[`colorImgLength${i}`] ; j++ ){
+            if( k < req.files.length){
+                const file = req.files[k];
+                const timeStamp = Date.now();
+                const name =  file.originalname.split(".")[0];
+                const type =  file.originalname.split(".")[1];
+                const fileName = `${name}_${timeStamp}.${type}`;
+                const imageRef = storage.child(`/product/${fileName}`);
+                const snapshot = await imageRef.put(file.buffer);
+                const downloadURL = await snapshot.ref.getDownloadURL();
+                var colorName = req.body[`color${i}`];
+                imgColorArray.push(downloadURL);
+                k++;
+                console.log("red ",colorName);
+                imageArray[colorName] = imgColorArray;
+            }
+        }
+    }
+    const productData =new  Product({
+        attribute :req.body.attribute, 
+        brand : req.body.brand,
+        category :req.body.category, 
+        description :req.body.description, 
+        discount:req.body.discount,
+        manufactures :req.body.manufactures,
+        name :req.body.name,
+        price :req.body.price, 
+        quantity :req.body.quantity, 
+        shipping :req.body.shipping, 
+        specification :req.body.specification, 
+        type : req.body.type,
+        images: imageArray,
+    });
+    const result = await productData.save();
+        return res.json({
+            data : result,
+            status : true
+        })
+    }
+    }catch(err){
+        return res.status(400).json({
+            error: errorHandler(err),
+            status : false
+        });
+    }
+}
 
 exports.create_ = async (req, res) => {
     try{
         console.log(req.body)
         console.log("-------",req.files)
 
+
+    // const product = new Product(req.body);
+    // product.save((err, data) => {
+        //     if (err) {
+            //         return res.status(400).json({
+                //             error: errorHandler(err)
+                //         });
+                //     }
+                //     res.json({ data });
+                // });
         if(req.files){
             const productData =new  Product({
                 name :req.body.name,

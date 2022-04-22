@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
+const { ObjectId  } = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 const productSchema = new mongoose.Schema(
     {
@@ -10,7 +11,7 @@ const productSchema = new mongoose.Schema(
             type: String,
         },
         attribute:{
-            type:Array,
+            type: Array,
         },
         height: {
             type: String
@@ -18,7 +19,7 @@ const productSchema = new mongoose.Schema(
         width: {
             type: String
         },
-        leanth: {
+        length: {
             type: String
         },
         description: {
@@ -28,10 +29,10 @@ const productSchema = new mongoose.Schema(
             type: Number,
         },
         specification:{
-            type:Array,
+            type: Array,
         },
         manufactures:{
-            type:String,
+            type: String,
         },
         category: {
             type: ObjectId,
@@ -52,21 +53,21 @@ const productSchema = new mongoose.Schema(
             default: 0
         },
         status: {
-            type: Number,
-            default: 1
+            type: Boolean,
+            default: true
         },
-        photo: {
-            data: Buffer,
-            contentType: String
-        },
-        productImg: {
-            type :  Array
-        },
-        image: {
-            type :  Array
+        images: {
+            type : Schema.Types.Mixed
         },
         shipping: {
             type: Boolean
+        },
+        discount: {
+            type : String
+        },
+        isDelete : {
+            type: Boolean,
+            default: false
         }
     },
     { timestamps: true }

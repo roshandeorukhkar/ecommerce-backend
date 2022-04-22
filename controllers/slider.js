@@ -17,8 +17,8 @@ exports.uploadImg = async (req, res) => {
   console.log("testing", req.file);
   const file = req.file;
   const timestamp = Date.now();
-  const name = file.originalname.split(".")[0];
-  const type = file.originalname.split(".")[1];
+  const name = file.orignalName.split(".")[0];
+  const type = file.orignalName.split(".")[1];
   const fileName = `${name}_${timestamp}.${type}`;
   console.log("fileName : ", fileName);
   // Step 1. Create reference for file name in cloud storage
@@ -104,26 +104,26 @@ exports.remove = async (req, res) => {
   }
 };
 
-exports.getSliderDataById = async (req, res ) => {
-  try{
-       const result = await sliderSchema.findById(req.params.id);
-       return res.json(result);
-  }catch (e){
-      return res.status(400).json({
-        status : false,
-        errors : "Not found record" + e
-      })
-  }
-}
-
-exports.updateSliderData =  async (req, res ) =>{
-  try{
+exports.getSliderDataById = async (req, res) => {
+  try {
     const result = await sliderSchema.findById(req.params.id);
     return res.json(result);
-  }catch (e){
+  } catch (e) {
     return res.status(400).json({
-      status : false,
-      errors : "Error :" +e
-    })
+      status: false,
+      errors: "Not found record" + e,
+    });
   }
-}
+};
+
+exports.updateSliderData = async (req, res) => {
+  try {
+    const result = await sliderSchema.findById(req.params.id);
+    return res.json(result);
+  } catch (e) {
+    return res.status(400).json({
+      status: false,
+      errors: "Error :" + e,
+    });
+  }
+};
