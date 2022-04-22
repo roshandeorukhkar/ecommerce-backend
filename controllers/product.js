@@ -147,51 +147,6 @@ exports.create = async (req, res) => {
     }
 }
 
-exports.create_ = async (req, res) => {
-    try{
-        console.log(req.body)
-        console.log("-------",req.files)
-
-
-    // const product = new Product(req.body);
-    // product.save((err, data) => {
-        //     if (err) {
-            //         return res.status(400).json({
-                //             error: errorHandler(err)
-                //         });
-                //     }
-                //     res.json({ data });
-                // });
-        if(req.files){
-            const productData =new  Product({
-                name :req.body.name,
-                description:req.body.description, 
-                price:req.body.price, 
-                productImg: req.files.filename,
-                category:req.body.category, 
-                quantity:req.body.quantity, 
-                shipping:req.body.shipping, 
-                specification:req.body.specification, 
-                attribute:req.body.attribute, 
-                manufactures:req.body.manufactures
-            });
-            const result = await productData.save();
-            // console.log(req.body)
-            console.log(result)
-        }else{
-            return res.status(400).json({
-                status: false,
-                error: errorHandler(err),
-                message : 'Something Wrong'
-            });
-        }
-    }catch(err){
-        return res.status(400).json({
-            error: errorHandler(err)
-        });
-    }
-}
-
 exports.remove = (req, res) => {
     let product = req.product;
     product.remove((err, deletedProduct) => {
