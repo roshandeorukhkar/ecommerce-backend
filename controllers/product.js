@@ -31,6 +31,7 @@ exports.productById = (req, res, next, id) => {
 
 exports.read = (req, res) => {
     req.product.photo = undefined;
+    console.log("----",req.product);
     return res.json(req.product);
 };
 
@@ -118,8 +119,10 @@ exports.create = async (req, res) => {
             }
         }
     }
-    const productData =new  Product({
-        attribute :req.body.attribute, 
+    const attribute  = JSON.parse(req.body.attribute);
+    const specification = JSON.parse(req.body.specification);
+    const productData =new Product({
+        attribute :attribute, 
         brand : req.body.brand,
         category :req.body.category, 
         description :req.body.description, 
@@ -129,7 +132,7 @@ exports.create = async (req, res) => {
         price :req.body.price, 
         quantity :req.body.quantity, 
         shipping :req.body.shipping, 
-        specification :req.body.specification, 
+        specification :specification, 
         type : req.body.type,
         images: imageArray,
     });

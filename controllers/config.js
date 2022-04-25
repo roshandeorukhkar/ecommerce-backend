@@ -6,6 +6,7 @@ const {
   MESSAGING_SENDER_ID,
   APP_ID,
 } = process.env;
+
 module.exports = {
   firebaseConfig: {
     apiKey: API_KEY,
