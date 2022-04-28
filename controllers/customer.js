@@ -1,6 +1,8 @@
-const User = require('../models/customer');
+const User = require('../models/customer/customer');
 const { Order } = require('../models/order');
 const { errorHandler } = require('../helpers/dbErrorHandler');
+const Customer = require("../models/customer/customer");
+
 
 exports.userById = (req, res, next, id) => {
     Customer.findById(id).exec((err, user) => {
@@ -79,10 +81,9 @@ exports.update = (req, res) => {
 
 exports.addOrderToUserHistory = (req, res, next) => {
     let history = [];
-
     req.body.order.products.forEach(item => {
         history.push({
-            _id: item._id,
+            _id: item.id,
             name: item.name,
             description: item.description,
             category: item.category,
@@ -91,8 +92,18 @@ exports.addOrderToUserHistory = (req, res, next) => {
             amount: req.body.order.amount
         });
     });
+    // console.log("req.body",req.body.user)
 
-    Customer.findOneAndUpdate({ _id: req.profile._id }, { $push: { history: history } }, { new: true }, (error, data) => {
+    const addressUpdate = {
+        email : req.body.order.user.email,
+        address : req.body.order.user.address,
+        country : req.body.order.user.country,
+        city : req.body.order.user.city,
+        state : req.body.order.user.state,
+        pincode : req.body.order.user.pinCode,
+    }
+
+    Customer.findOneAndUpdate({ _id: req.params.userId }, {$set: addressUpdate , $push: { history: history }  }, { new: true ,upsert:true }, (error, data) => {
         if (error) {
             return res.status(400).json({
                 error: 'Could not update user purchase history'
@@ -103,8 +114,9 @@ exports.addOrderToUserHistory = (req, res, next) => {
 };
 
 exports.purchaseHistory = (req, res) => {
-    Order.find({ user: req.profile._id })
-        .populate('user', '_id name')
+    console.log("req---",req)
+    Order.find({ user: req.params.userId })
+        // .populate('user', '_id')
         .sort('-created')
         .exec((err, orders) => {
             if (err) {

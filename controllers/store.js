@@ -172,7 +172,6 @@ exports.addUserRole = async (req, res) => {
     }
   } else {
     try {
-      console.log("-----------------???", req.body);
       const userId = mongoose.Types.ObjectId(req.body.assingTo.value);
       const { roleName, accessModuleId, userRoleId } = req.body;
       var addUserRole = {

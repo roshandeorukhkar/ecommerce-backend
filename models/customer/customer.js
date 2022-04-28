@@ -21,8 +21,6 @@ const customerSchema = new mongoose.Schema(
         email: {
             type: String,
             trim: true
-            //required: true,
-            //unique: true
         },
         hashed_password: {
             type: String,
@@ -47,6 +45,13 @@ const customerSchema = new mongoose.Schema(
             type: Array,
             default: []
         },
+        address:{
+            type: String
+        },
+        country : String,
+        city : String,
+        state : String,
+        pincode : String,
         date_added: {
             type: Date,
             default : Date.now

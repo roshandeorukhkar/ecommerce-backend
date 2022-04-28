@@ -19,8 +19,7 @@ exports.orderById = (req, res, next, id) => {
 };
 
 exports.create = (req, res) => {
-    console.log('CREATE ORDER: ', req.body);
-    req.body.order.user = req.profile;
+    req.body.order.user = req.params.userId;
     const order = new Order(req.body.order);
     order.save((error, data) => {
         if (error) {
@@ -32,26 +31,26 @@ exports.create = (req, res) => {
         // order.address
         // order.products.length
         // order.amount
-        const emailData = {
-            to: 'kaloraat@gmail.com',
-            from: 'noreply@ecommerce.com',
-            subject: `A new order is received`,
-            html: `
-            <p>Customer name:</p>
-            <p>Total products: ${order.products.length}</p>
-            <p>Total cost: ${order.amount}</p>
-            <p>Login to dashboard to the order in detail.</p>
-        `
-        };
-        sgMail.send(emailData);
+        // const emailData = {
+        //     to: 'kaloraat@gmail.com',
+        //     from: 'noreply@ecommerce.com',
+        //     subject: `A new order is received`,
+        //     html: `
+        //     <p>Customer name:</p>
+        //     <p>Total products: ${order.products.length}</p>
+        //     <p>Total cost: ${order.amount}</p>
+        //     <p>Login to dashboard to the order in detail.</p>
+        // `
+        // };
+        // sgMail.send(emailData);
         res.json(data);
     });
 };
 
 exports.listOrders = (req, res) => {
     Order.find()
-        // .populate('user', '_id name address')
-        // .sort('-created')
+        .populate('user', '_id name address')
+        .sort('-created')
         .exec((err, orders) => {
             if (err) {
                 return res.status(400).json({
