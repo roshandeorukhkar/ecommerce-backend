@@ -346,8 +346,8 @@ exports.decreaseQuantity = (req, res, next) => {
     let bulkOps = req.body.order.products.map(item => {
         return {
             updateOne: {
-                filter: { _id: item._id },
-                update: { $inc: { quantity: -item.count, sold: +item.count } }
+                filter: { _id: item.id },
+                update: { $inc: { quantity: -item.quantity, sold: +item.quantity } }
             }
         };
     });

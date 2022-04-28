@@ -41,26 +41,6 @@ exports.signup = async (req, res) => {
   }
 };
 
-// using async/await
-// exports.signup = async (req, res) => {
-//     try {
-//         const user = await new User(req.body);
-//         console.log(req.body);
-
-//         await user.save((err, user) => {
-//             if (err) {
-//                 // return res.status(400).json({ err });
-//                 return res.status(400).json({
-//                     error: 'Email is taken'
-//                 });
-//             }
-//             res.status(200).json({ user });
-//         });
-//     } catch (err) {
-//         console.error(err.message);
-//     }
-// };
-
 exports.otpVerification = async (req, res) => {
   try {
     const { mobileNo, otp } = req.body;
@@ -215,7 +195,7 @@ exports.requireSignin = expressJwt({
 });
 
 exports.isAuth = (req, res, next) => {
-  let user = req.profile && req.auth && req.profile._id == req.auth._id;
+  let user = req.auth && req.params.userId == req.auth._id;
   if (!user) {
     return res.status(403).json({
       error: "Access denied",
