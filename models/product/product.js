@@ -29,7 +29,8 @@ const productSchema = new mongoose.Schema(
             type: Number,
         },
         specification:{
-            type: Array,
+            type:[{ type : ObjectId, ref: 'Specification' }]
+            //type: Array,
         },
         manufactures:{
             type: String,
@@ -49,7 +50,7 @@ const productSchema = new mongoose.Schema(
             default: 0
         },
         type: {
-            type: Number,
+            type: String,
             default: 0
         },
         status: {
@@ -60,7 +61,7 @@ const productSchema = new mongoose.Schema(
             type : Schema.Types.Mixed
         },
         shipping: {
-            type: Boolean
+            type: String
         },
         discount: {
             type : String
