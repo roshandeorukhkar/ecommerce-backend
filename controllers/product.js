@@ -361,3 +361,44 @@ exports.decreaseQuantity = (req, res, next) => {
         next();
     });
 };
+
+exports.updateStatus = (req, res) => {
+    const products = req.product;
+    products.status = req.body.statusVlaue;
+    products.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
+exports.changeStatus = (req, res) => {
+    const products = req.product;
+    products.status = req.body.statusVlaue;
+    products.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
+exports.changeStatusDelete = (req, res) => {
+    const products = req.product;
+    products.deletedAt = req.body.statusVlaue;
+    products.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
+};
+
+
