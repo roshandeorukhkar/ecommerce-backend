@@ -5,7 +5,7 @@ const multer = require("multer");
 // var upload   = multer({ dest: _config.tempDir })
 
 
-const { create, productById, read, remove, update, list, listRelated, listCategories, listBySearch, photo, listSearch } = require("../controllers/product");
+const { create, productById, read, remove, update, list, listRelated, listCategories, listBySearch, photo, listSearch, updateStatus, changeStatus, changeStatusDelete  } = require("../controllers/product");
 const { requireSignin, isAuth } = require("../controllers/auth");
 const { userById } = require("../controllers/customer");
 const { productValidator } = require("../validator");
@@ -25,6 +25,10 @@ router.get("/products/related/:productId", listRelated);
 router.get("/products/categories", listCategories);
 router.post("/products/by/search", listBySearch);
 router.get("/product/photo/:productId", photo);
+
+router.post("/product/status/:productId", updateStatus);
+router.post("/product/statusChange/:productId", changeStatus);
+router.post("/product/deletes/:productId", changeStatusDelete);
 
 router.param("userId", userById);
 router.param("productId", productById);

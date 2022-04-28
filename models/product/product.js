@@ -30,7 +30,6 @@ const productSchema = new mongoose.Schema(
         },
         specification:{
             type:[{ type : ObjectId, ref: 'Specification' }]
-            //type: Array,
         },
         manufactures:{
             type: String,
@@ -54,8 +53,8 @@ const productSchema = new mongoose.Schema(
             default: 0
         },
         status: {
-            type: Boolean,
-            default: true
+            type: Number,
+            default: 1
         },
         images: {
             type : Schema.Types.Mixed
@@ -66,10 +65,10 @@ const productSchema = new mongoose.Schema(
         discount: {
             type : String
         },
-        isDelete : {
-            type: Boolean,
-            default: false
-        }
+        deletedAt :{
+            require : true,
+            type : Date
+        },
     },
     { timestamps: true }
 );
