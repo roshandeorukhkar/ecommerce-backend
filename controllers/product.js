@@ -395,6 +395,7 @@ exports.changeStatusDelete = (req, res) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
+                
             });
         }
         res.json(data);
