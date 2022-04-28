@@ -29,7 +29,8 @@ const productSchema = new mongoose.Schema(
             type: Number,
         },
         specification:{
-            type: Array,
+            type:[{ type : ObjectId, ref: 'Specification' }]
+            //type: Array,
         },
         manufactures:{
             type: String,
