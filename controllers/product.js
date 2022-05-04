@@ -16,26 +16,27 @@ const firebaseImgUpload = require("./firebaseImgUpload");
 const mongoose = require("mongoose");
 const Category = require("../models/category/category")
 const Specification = require("../models/product/specification");
-const Attribute = require("../models/product/attribute")
-// exports.productById_ = (req, res, next, id) => {
-//     Product.findById(id)
-//         .populate('category')
-//         .exec((err, product) => {
-//             console.log("error",err)
-//             if (err || !product) {
-//                 return res.status(400).json({
-//                     error: 'Product not found'
-//                 });
-//             }
-//             req.product = product;
-//             next();
-//         });
-// };
+const Attribute = require("../models/product/attribute");
 
-exports.productById = async (req, res, next, id) => {
+exports.productById = (req, res, next, id) => {
+    Product.findById(id)
+        .populate('category')
+        .exec((err, product) => {
+            console.log("error",err)
+            if (err || !product) {
+                return res.status(400).json({
+                    error: 'Product not found'
+                });
+            }
+            req.product = product;
+            next();
+        });
+};
+
+exports.productDetailsById = async (req, res) => {
     try{
         let matchObj = {};
-        matchObj["_id"] = mongoose.Types.ObjectId(id)
+        matchObj["_id"] = mongoose.Types.ObjectId(req.params.productId)
 
         const productData =  await Product.aggregate([
             {
@@ -68,9 +69,7 @@ exports.productById = async (req, res, next, id) => {
                 }
             }
         ]);  
-        console.log("attribute",productData)
-        req.product = productData[0];
-        next();
+        return res.json(productData[0]);
     }catch(e){
         console.log("error",e);
         return res.status(400).json({
@@ -276,7 +275,7 @@ exports.list = (req, res) => {
     let order = req.query.order ? req.query.order : 'asc';
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
     Product.find()
-        .select('-photo')
+        // .select('-photo')
         .populate('category')
         .sort([[sortBy, order]])
         .exec((err, products) => {
@@ -425,10 +424,12 @@ exports.decreaseQuantity = (req, res, next) => {
 };
 
 exports.updateStatus = (req, res) => {
-    const products = req.product;
-    products.status = req.body.statusVlaue;
-    products.save((err, data) => {
+    console.log("------------",req.product)
+    let product = req.product;
+    product.status = req.body.statusVlaue;
+    product.save((err, data) => {
         if (err) {
+            console.log("",err)
             return res.status(400).json({
                 error: errorHandler(err)
             });
