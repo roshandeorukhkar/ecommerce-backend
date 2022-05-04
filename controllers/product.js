@@ -16,7 +16,7 @@ const firebaseImgUpload = require("./firebaseImgUpload");
 const mongoose = require("mongoose");
 const Category = require("../models/category/category")
 const Specification = require("../models/product/specification");
-
+const Attribute = require("../models/product/attribute")
 // exports.productById_ = (req, res, next, id) => {
 //     Product.findById(id)
 //         .populate('category')
@@ -59,7 +59,16 @@ exports.productById = async (req, res, next, id) => {
                 as : "specification"
                 }
             },
+            {
+                $lookup : {
+                    from : Attribute.collection.name,
+                    localField : "attribute.Id",
+                    foreignField : "_id",
+                    as : "attributeData"
+                }
+            }
         ]);  
+        console.log("attribute",productData)
         req.product = productData[0];
         next();
     }catch(e){
@@ -71,7 +80,7 @@ exports.productById = async (req, res, next, id) => {
 }
 
 exports.read = (req, res) => {
-    req.product.photo = undefined;
+    // req.product.photo = undefined;
     return res.json(req.product);
 };
 
