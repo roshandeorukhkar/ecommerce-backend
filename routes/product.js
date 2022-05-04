@@ -14,6 +14,7 @@ const storage = multer.memoryStorage();
 
 let upload = multer({ storage: storage}).any();
 
+// router.get("/product/:productId", read);
 router.get("/product/:productId", read);
 router.post("/product/create/",upload, create);
 router.delete("/product/:productId/", remove );
