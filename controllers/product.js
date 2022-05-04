@@ -13,25 +13,74 @@ global.XMLHttpRequest = require("xhr2");
 
 var path = require("path");
 const firebaseImgUpload = require("./firebaseImgUpload");
+const mongoose = require("mongoose");
+const Category = require("../models/category/category")
+const Specification = require("../models/product/specification");
+const Attribute = require("../models/product/attribute")
+// exports.productById_ = (req, res, next, id) => {
+//     Product.findById(id)
+//         .populate('category')
+//         .exec((err, product) => {
+//             console.log("error",err)
+//             if (err || !product) {
+//                 return res.status(400).json({
+//                     error: 'Product not found'
+//                 });
+//             }
+//             req.product = product;
+//             next();
+//         });
+// };
 
+exports.productById = async (req, res, next, id) => {
+    try{
+        let matchObj = {};
+        matchObj["_id"] = mongoose.Types.ObjectId(id)
 
-exports.productById = (req, res, next, id) => {
-    Product.findById(id)
-        .populate('category')
-        .exec((err, product) => {
-            if (err || !product) {
-                return res.status(400).json({
-                    error: 'Product not found'
-                });
+        const productData =  await Product.aggregate([
+            {
+                $match : {
+                    ...matchObj
+                }
+            },
+            {
+                $lookup : {
+                from : Category.collection.name,
+                localField : "category",
+                foreignField : "_id",
+                as: "category"
+                },
+            },
+               { 
+                $lookup : {
+                from : Specification.collection.name,
+                localField : "specification",
+                foreignField: "_id",
+                as : "specification"
+                }
+            },
+            {
+                $lookup : {
+                    from : Attribute.collection.name,
+                    localField : "attribute.Id",
+                    foreignField : "_id",
+                    as : "attributeData"
+                }
             }
-            req.product = product;
-            next();
-        });
-};
+        ]);  
+        console.log("attribute",productData)
+        req.product = productData[0];
+        next();
+    }catch(e){
+        console.log("error",e);
+        return res.status(400).json({
+            error: 'Product not found'
+        })
+    }
+}
 
 exports.read = (req, res) => {
-    req.product.photo = undefined;
-    console.log("----",req.product);
+    // req.product.photo = undefined;
     return res.json(req.product);
 };
 
