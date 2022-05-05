@@ -63,7 +63,7 @@ exports.productDetailsById = async (req, res) => {
             {
                 $lookup : {
                     from : Attribute.collection.name,
-                    localField : "attribute.id",
+                    localField : "attribute.Id",
                     foreignField : "_id",
                     as : "attributeData"
                 }
@@ -173,7 +173,7 @@ exports.create = async (req, res) => {
     attribute.map((att) =>{
         attributeArray.push(
             {
-            id : mongoose.Types.ObjectId(att.Id),
+            Id : mongoose.Types.ObjectId(att.Id),
             Values : att.Values
         })
     })
