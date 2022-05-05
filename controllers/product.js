@@ -69,6 +69,7 @@ exports.productDetailsById = async (req, res) => {
                 }
             }
         ]);
+        console.log("check---",productData);
         return res.json(productData[0]);
     }catch(e){
         console.log("error",e);
@@ -172,7 +173,7 @@ exports.create = async (req, res) => {
     attribute.map((att) =>{
         attributeArray.push(
             {
-            Id : mongoose.Types.ObjectId(att.Id),
+            id : mongoose.Types.ObjectId(att.Id),
             Values : att.Values
         })
     })
