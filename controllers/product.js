@@ -63,12 +63,12 @@ exports.productDetailsById = async (req, res) => {
             {
                 $lookup : {
                     from : Attribute.collection.name,
-                    localField : "attribute.Id",
+                    localField : "attribute.id",
                     foreignField : "_id",
                     as : "attributeData"
                 }
             }
-        ]);  
+        ]);
         return res.json(productData[0]);
     }catch(e){
         console.log("error",e);
@@ -162,15 +162,23 @@ exports.create = async (req, res) => {
                 var colorName = req.body[`color${i}`];
                 imgColorArray.push(downloadURL);
                 k++;
-                console.log("red ",colorName);
+                console.log("red ",req.body.attribute);
                 imageArray[colorName] = imgColorArray;
             }
         }
     }
-    const attribute  = JSON.parse(req.body.attribute);
+    const attributeArray = [];
+    let attribute  = JSON.parse(req.body.attribute);
+    attribute.map((att) =>{
+        attributeArray.push(
+            {
+            Id : mongoose.Types.ObjectId(att.Id),
+            Values : att.Values
+        })
+    })
     const specification = JSON.parse(req.body.specification);
     const productData =new Product({
-        attribute :attribute, 
+        attribute :attributeArray, 
         brand : req.body.brand,
         category :req.body.category, 
         subcategory :req.body.subcategory, 
