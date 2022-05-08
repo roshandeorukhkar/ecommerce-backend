@@ -15,6 +15,9 @@ const categorySchema = new mongoose.Schema(
             type: String,
             //type: Schema.Types.ObjectId,
         },
+        navigation: {
+            type: Number 
+        },
         date_modified :{
             require : true,
             type : Date

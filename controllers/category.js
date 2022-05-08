@@ -1,6 +1,36 @@
+const { uploadBytesResumable, getDownloadURL } = require("firebase/storage");
+const { ref } = require("@firebase/storage");
+
+const firebase = require("./dbFirebase");
+const firestore = firebase.firestore();
+const storage = firebase.storage().ref();
+global.XMLHttpRequest = require("xhr2");
+
+var path = require("path");
+const fs = require("fs");
+const _ = require("lodash");
+
+
 const Category = require('../models/category/category');
 const Product = require('../models/product/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
+
+exports.uploadImg = async (req, res) => {
+    console.log("testing", req.file);
+    const file = req.file;
+    const timestamp = Date.now();
+    const name = file.originalname.split(".")[0];
+    const type = file.originalname.split(".")[1];
+    const fileName = `${name}_${timestamp}.${type}`;
+    console.log("fileName : ", fileName);
+    // Step 1. Create reference for file name in cloud storage
+    const imageRef = storage.child(`/slider/${fileName}`);
+    // Step 2. Upload the file in the bucket storage
+    const snapshot = await imageRef.put(file.buffer);
+    // Step 3. Grab the public url
+    const downloadURL = await snapshot.ref.getDownloadURL();
+  };
+  
 
 exports.categoryById = (req, res, next, id) => {
     Category.findById(id).exec((err, category) => {
@@ -38,6 +68,7 @@ exports.update = (req, res) => {
     const category = req.category;
     category.name = req.body.name;
     category.description = req.body.description;
+    category.navigation = req.body.navigation;
     category.save((err, data) => {
         if (err) {
             return res.status(400).json({
