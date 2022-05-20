@@ -5,7 +5,7 @@ const { read,create,taxById,list,update,updateStatus ,changeStatus ,remove,updat
 const { taxValidator } = require("../validator");
 
 router.get('/tax/:taxId', read);
-router.post('/tax/create',taxValidator, create);
+router.post('/tax/create', create);
 router.get('/tax', list);
 router.post("/tax/status/:taxId", updateStatus);
 router.post("/tax/statusChange/:taxId", changeStatus);

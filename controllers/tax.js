@@ -21,7 +21,7 @@ exports.read = (req, res) => {
 
 exports.updateDelete = (req, res) => {
     const tax = req.tax;
-    tax.deletedAt = req.body.taxName;
+    tax.deletedAt = req.body.deletedAt;
     tax.save((err, data) => {
         if (err) {
             return res.status(400).json({
@@ -34,7 +34,7 @@ exports.updateDelete = (req, res) => {
 
 exports.updateStatus = (req, res) => {
     const tax = req.tax;
-    tax.status = req.body.taxName;
+    tax.status = req.body.taxStatus;
     tax.save((err, data) => {
         if (err) {
             return res.status(400).json({
@@ -47,7 +47,7 @@ exports.updateStatus = (req, res) => {
 
 exports.changeStatus = (req, res) => {
     const tax = req.tax;
-    tax.status = req.body.taxName;
+    tax.status = req.body.taxStatus;
     tax.save((err, data) => {
         if (err) {
             return res.status(400).json({

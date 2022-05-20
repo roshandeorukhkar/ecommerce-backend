@@ -11,27 +11,18 @@ const taxSchema = new mongoose.Schema(
             require : true,
             type : String
         },
-        date_added :{
-            require : true,
-            type : Date 
-        },
-        date_modified :{
-            require : true,
-            type : Date
-        },
-        deletedAt :{
-            require : true,
-            type : Date
-        },
         taxDescription: {
             type: String,
         },
         status: {
             type: Number,
             default: 1
+        },
+        deletedAt :{
+            type : Date,
         }
     },
-    { timestamps: true }    
+    { timestamps: true }     
 );
 
 module.exports = mongoose.model("Tax", taxSchema);
