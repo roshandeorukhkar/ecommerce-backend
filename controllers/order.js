@@ -18,6 +18,10 @@ exports.orderById = (req, res, next, id) => {
         });
 };
 
+exports.read = (req, res) => {
+    return res.json(req.order);
+};
+
 exports.create = (req, res) => {
     console.log("I am in order create-----")
     req.body.order.user = req.params.userId;
@@ -96,6 +100,20 @@ exports.updateDelete = (req, res) => {
 
 exports.getStatusValues = (req, res) => {
     res.json(Order.schema.path('status').enumValues);
+};
+
+/* Update order*/
+exports.updateOrder = (req, res) => {
+    const order = req.order;
+    order.status = req.body.status;
+    order.save((err, data) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json(data);
+    });
 };
 
 exports.updateOrderStatus = (req, res) => {
