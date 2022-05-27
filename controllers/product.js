@@ -22,7 +22,6 @@ exports.productById = (req, res, next, id) => {
     Product.findById(id)
         .populate('category')
         .exec((err, product) => {
-            console.log("error",err)
             if (err || !product) {
                 return res.status(400).json({
                     error: 'Product not found'
@@ -54,10 +53,10 @@ exports.productDetailsById = async (req, res) => {
             },
                { 
                 $lookup : {
-                from : Specification.collection.name,
-                localField : "specification",
-                foreignField: "_id",
-                as : "specification"
+                    from : Specification.collection.name,
+                    localField : "specification.id",
+                    foreignField: "_id",
+                    as : "specification"
                 }
             },
             {
@@ -69,10 +68,8 @@ exports.productDetailsById = async (req, res) => {
                 }
             }
         ]);
-        console.log("check---",productData);
         return res.json(productData[0]);
     }catch(e){
-        console.log("error",e);
         return res.status(400).json({
             error: 'Product not found'
         })
@@ -132,7 +129,6 @@ exports.read = (req, res) => {
 // };
 
 function getFileList(directory, extension) {
-    console.log("directory" ,directory )
     let dir = fs.readdirSync(directory);
     let filelist = dir.filter( elm => elm.match(new RegExp(`.*\.(${extension})`, 'ig')));
     return filelist.map(file => {
@@ -163,7 +159,6 @@ exports.create = async (req, res) => {
                 var colorName = req.body[`color${i}`];
                 imgColorArray.push(downloadURL);
                 k++;
-                console.log("red ",req.body.attribute);
                 imageArray[colorName] = imgColorArray;
             }
         }
@@ -177,7 +172,18 @@ exports.create = async (req, res) => {
             Values : att.Values
         })
     })
-    const specification = JSON.parse(req.body.specification);
+
+    const specificationArray = [];
+    let specification  = JSON.parse(req.body.specifications);
+    specification.map((spe) =>{
+        specificationArray.push(
+            {
+            id :  mongoose.Types.ObjectId(spe.Id),
+            value : spe.value
+            }
+        )
+    })
+
     const productData =new Product({
         attribute :attributeArray, 
         brand : req.body.brand,
@@ -190,7 +196,7 @@ exports.create = async (req, res) => {
         price :req.body.price, 
         quantity :req.body.quantity, 
         shipping :req.body.shipping, 
-        specification :specification, 
+        specification :specificationArray, 
         type : req.body.type,
         images: imageArray,
     });
@@ -201,7 +207,6 @@ exports.create = async (req, res) => {
         })
     }
     }catch(err){
-        console.log(err,"err")
         return res.status(400).json({
             error: errorHandler(err),
             status : false
@@ -270,7 +275,7 @@ exports.update = (req, res) => {
                 error: errorHandler(err)
             });
         }
-        res.json(data);
+         res.json(data);
     });
 };
 
@@ -344,9 +349,6 @@ exports.listBySearch = (req, res) => {
     let limit = req.body.limit ? parseInt(req.body.limit) : 100;
     let skip = parseInt(req.body.skip);
     let findArgs = {};
-
-    // console.log(order, sortBy, limit, skip, req.body.filters);
-    // console.log("findArgs", findArgs);
 
     for (let key in req.body.filters) {
         if (req.body.filters[key].length > 0) {
@@ -434,12 +436,10 @@ exports.decreaseQuantity = (req, res, next) => {
 };
 
 exports.updateStatus = (req, res) => {
-    console.log("------------",req.product)
     let product = req.product;
     product.status = req.body.statusVlaue;
     product.save((err, data) => {
         if (err) {
-            console.log("",err)
             return res.status(400).json({
                 error: errorHandler(err)
             });

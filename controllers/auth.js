@@ -1,12 +1,7 @@
 const User = require("../models/customer/customer");
-//const User = require('../models/customer');
 const jwt = require("jsonwebtoken"); // to generate signed token
 const expressJwt = require("express-jwt"); // for authorization check
-const { errorHandler } = require("../helpers/dbErrorHandler");
 const OtpVerify = require("../models/customer/otpVerification");
-// const customer = require("../models/customer");
-// const user = require("../models/user");
-
 // using promise
 exports.signup = async (req, res) => {
   try {
@@ -31,24 +26,16 @@ exports.signup = async (req, res) => {
       otpData: otpSave,
     });
   } catch (errors) {
-    console.log(errors);
-    return res.status(400).json({
-      status: false,
-      errors: {
-        mobile: "Mobile No is already exist",
-      },
-    });
+    console.log("errors",errors);
   }
 };
 
 exports.otpVerification = async (req, res) => {
   try {
     const { mobileNo, otp } = req.body;
-    console.log(req.body);
     const genratedOtp = await OtpVerify.findOne({ mobileNo: mobileNo });
     const user = await User.findOne({ mobile: mobileNo });
     if (genratedOtp.otp == otp) {
-      console.log(req.body)
       if (req.body.formName === 'registrion') {
         const userOtpVerified = await User.findOneAndUpdate(
           { mobile: mobileNo },
@@ -77,13 +64,12 @@ exports.otpVerification = async (req, res) => {
         },
       });
     } else {
-      return res.json({
+      return res.status(401).json({
         status: false,
         message: "Please enter valid OTP.",
       });
     }
   } catch (error) {
-    console.log("error====== ", error);
     return res.status(401).json({
       status: false,
       errors: "Something is wrong",
@@ -93,7 +79,6 @@ exports.otpVerification = async (req, res) => {
 
 exports.signin = async (req, res) => {
   try {
-    console.log("checkData", req.body);
     const { mobile, otp } = req.body;
     const existUser = await User.findOne({
       mobile: mobile,
@@ -121,9 +106,9 @@ exports.signin = async (req, res) => {
         otpData: otpData,
       });
     } else {
-      return res.json({
+      return res.status(400).json({
         status: false,
-        errors: "Mobile No is not exist.Please register and login.",
+        errors: "Mobile No. is not exist. Please register and login.",
       });
     }
   } catch (error) {

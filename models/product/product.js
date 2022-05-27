@@ -29,7 +29,7 @@ const productSchema = new mongoose.Schema(
             type: Number,
         },
         specification:{
-            type:[{ type : ObjectId, ref: 'Specification' }]
+            type:Array
         },
         manufactures:{
             type: String,

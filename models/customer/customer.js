@@ -14,9 +14,7 @@ const customerSchema = new mongoose.Schema(
         },
         mobile:{
             type: Number,
-            index : {
-                unique: true
-            }
+            unique: true
         },
         email: {
             type: String,
@@ -113,10 +111,10 @@ customerSchema.methods = {
 
 module.exports = mongoose.model("Customer" ,customerSchema);
 
-customerSchema.path('mobile').validate(
-    async mobile =>{
-        const mobileCount = await mongoose.models.Customer.countDocuments({
-            mobile
-        })
-        return !mobileCount
-    }, 'Mobile already exists');
+// customerSchema.path('mobile').validate(
+//     async mobile =>{
+//         const mobileCount = await mongoose.models.Customer.countDocuments({
+//             mobile
+//         })
+//         return !mobileCount
+//     }, 'Mobile already exists');
