@@ -26,7 +26,10 @@ const OrderSchema = new mongoose.Schema(
     },
     updated: Date,
     //user: { type: ObjectId, ref: "User" }// old
-    user: { type: ObjectId, ref: "Customer" }
+    user: { type: ObjectId, ref: "Customer" },
+    deletedAt :{
+        type : Date,
+    }
   },
   { timestamps: true }
 );
