@@ -25,6 +25,7 @@ const userManagementRoutes = require('./routes/userManagement');
 const accessModuleRoutes = require('./routes/accessModule');
 const settingRoutes = require('./routes/settingRoutes');
 const taxRoutes = require('./routes/tax');
+const wishlistRoutes = require('./routes/wishlist');
 
 // app
 const app = express();
@@ -65,6 +66,7 @@ app.use('/api', specificationRoutes);
 app.use('/api', accessModuleRoutes);
 app.use('/api', settingRoutes);
 app.use('/api', taxRoutes);
+app.use('/api', wishlistRoutes);
 
 const port = process.env.PORT || 8000;
 
