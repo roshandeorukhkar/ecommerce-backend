@@ -54,9 +54,11 @@ exports.productDetailsById = async (req, res) => {
                { 
                 $lookup : {
                     from : Specification.collection.name,
-                    localField : "specification.id",
-                    foreignField: "_id",
-                    as : "specification"
+                    let : {specification: "$specification"},
+                    "pipeline": [
+                        { "$match": { "$expr": { "$in": [ "$_id", "$$specification" ] } } }
+                    ],
+                    as : "specificationObj"
                 }
             },
             {
@@ -176,11 +178,7 @@ exports.create = async (req, res) => {
     const specificationArray = [];
     let specification  = JSON.parse(req.body.specifications);
     specification.map((spe) =>{
-        specificationArray.push(
-            {
-            id :  mongoose.Types.ObjectId(spe.Id),
-            value : spe.value
-            }
+        specificationArray.push(mongoose.Types.ObjectId(spe.Id)
         )
     })
 
