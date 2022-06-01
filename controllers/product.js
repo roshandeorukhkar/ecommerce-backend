@@ -188,7 +188,7 @@ exports.create = async (req, res) => {
         category :req.body.category, 
         subcategory :req.body.subcategory, 
         description :req.body.description, 
-        discount:req.body.discount,
+        discount:0,
         manufactures :req.body.manufactures,
         name :req.body.name,
         price :req.body.price, 
