@@ -27,6 +27,7 @@ const settingRoutes = require('./routes/settingRoutes');
 const taxRoutes = require('./routes/tax');
 const wishlistRoutes = require('./routes/wishlist');
 
+const category_header_icon = require('./routes/category_header_icon');
 // app
 const app = express();
 
@@ -63,6 +64,7 @@ app.use('/api', custRoutes);
 app.use('/api', userRoutes);
 app.use('/api', storeRoutes);
 app.use('/api', specificationRoutes);
+app.use('/api', category_header_icon);
 app.use('/api', accessModuleRoutes);
 app.use('/api', settingRoutes);
 app.use('/api', taxRoutes);

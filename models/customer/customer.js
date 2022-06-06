@@ -20,6 +20,10 @@ const customerSchema = new mongoose.Schema(
             type: String,
             trim: true
         },
+        gender: {
+            type: String,
+            trim: true
+        },
         hashed_password: {
             type: String,
         },
