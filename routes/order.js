@@ -7,9 +7,9 @@ const { decreaseQuantity } = require("../controllers/product");
 const { read, updateOrder, create, listOrders, getStatusValues, orderById, updateOrderStatus, updateDelete } = require("../controllers/order");
 
 router.post("/order/create/:userId", requireSignin, isAuth, addOrderToUserHistory, decreaseQuantity, create );
-// router.get("/order/list/:userId", requireSignin, isAuth, listOrders);
-// router.get("/order/status-values/:userId", requireSignin,isAuth,getStatusValues);
-// router.put("/order/:orderId/status/:userId", requireSignin, isAuth, updateOrderStatus);
+router.get("/order/list/:userId", requireSignin, isAuth, listOrders);
+router.get("/order/status-values/:userId", requireSignin,isAuth,getStatusValues);
+router.put("/order/:orderId/status/:userId", requireSignin, isAuth, updateOrderStatus);
 // router.param("userId", userById);
 // router.param("orderId", orderById);
 // old route is commited

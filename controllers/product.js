@@ -14,6 +14,7 @@ global.XMLHttpRequest = require("xhr2");
 var path = require("path");
 const firebaseImgUpload = require("./firebaseImgUpload");
 const mongoose = require("mongoose");
+const { ObjectId } = require('mongodb');
 const Category = require("../models/category/category")
 const Specification = require("../models/product/specification");
 const Attribute = require("../models/product/attribute");
@@ -35,7 +36,7 @@ exports.productById = (req, res, next, id) => {
 exports.productDetailsById = async (req, res) => {
     try{
         let matchObj = {};
-        matchObj["_id"] = mongoose.Types.ObjectId(req.params.productId)
+        matchObj["_id"] = ObjectId(req.params.productId)
 
         const productData =  await Product.aggregate([
             {
@@ -51,14 +52,12 @@ exports.productDetailsById = async (req, res) => {
                 as: "category"
                 },
             },
-               { 
+            { 
                 $lookup : {
-                    from : Specification.collection.name,
-                    let : {specification: "$specification"},
-                    "pipeline": [
-                        { "$match": { "$expr": { "$in": [ "$_id", "$$specification" ] } } }
-                    ],
-                    as : "specificationObj"
+                    from : "specifications",
+                    localField : "specification",
+                    foreignField : "_id",
+                    as: "specificationData"
                 }
             },
             {
@@ -170,7 +169,7 @@ exports.create = async (req, res) => {
     attribute.map((att) =>{
         attributeArray.push(
             {
-            Id : mongoose.Types.ObjectId(att.Id),
+            Id : ObjectId(att.Id),
             Values : att.Values
         })
     })
@@ -178,7 +177,7 @@ exports.create = async (req, res) => {
     const specificationArray = [];
     let specification  = JSON.parse(req.body.specifications);
     specification.map((spe) =>{
-        specificationArray.push(mongoose.Types.ObjectId(spe.Id)
+        specificationArray.push(ObjectId(spe.id)
         )
     })
 

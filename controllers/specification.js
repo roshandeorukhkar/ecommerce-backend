@@ -103,7 +103,9 @@ exports.list = (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
    // let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
-    Specification.find()
+    Specification.find({
+        status: 1
+    })
         .select('-photo')
         //.populate('category')
         .sort([[sortBy, order]])

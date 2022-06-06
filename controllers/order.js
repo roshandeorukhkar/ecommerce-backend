@@ -1,6 +1,7 @@
 const { Order, CartItem } = require('../models/order');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 // sendgrid for email npm i @sendgrid/mail
+const { ObjectId } = require('mongodb');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey('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');
 
@@ -26,6 +27,7 @@ exports.create = (req, res) => {
     console.log("I am in order create-----")
     req.body.order.user = req.params.userId;
     const order = new Order(req.body.order);
+    console.log("data---", order, req.body.order)
     order.save((error, data) => {
         if (error) {
             return res.status(400).json({
@@ -52,7 +54,7 @@ exports.create = (req, res) => {
     });
 };
 
-exports.listOrders = (req, res) => {
+exports.listOrders = async (req, res) => {
     /* try{
         const orders =  await Order.aggregate([
             {
@@ -70,19 +72,40 @@ exports.listOrders = (req, res) => {
             error: 'Orders not found'
         })
     } */
-    Order.find()
-        // .populate('user', '_id name address')
-        // .sort('-created')
-        // old
-        .populate('user')
-        .exec((err, orders) => {
-            if (err) {
-                return res.status(400).json({
-                    error: errorHandler(error)
-                });
+
+    const orderData = await Order.aggregate([
+        {
+            $match : {
+                user: ObjectId(req.auth._id)
             }
-            res.json(orders);
-        });
+         }//,
+        
+        // { 
+        //     $lookup : {
+        //         from : "products",
+        //         localField : "products._id",
+        //         foreignField : "_id",
+        //         as: "productData"
+        //     }
+        // }
+        
+    ]);
+    console.log("orderData---", orderData)
+    return res.json(orderData);
+
+    // Order.find({
+    //     user: req.auth._id
+    // })
+    // .sort('-created')
+    // .populate('user')
+    // .exec((err, orders) => {
+    //     if (err) {
+    //         return res.status(400).json({
+    //             error: errorHandler(error)
+    //         });
+    //     }
+    //     res.json(orders);
+    // });
 };
 
 exports.updateDelete = (req, res) => {

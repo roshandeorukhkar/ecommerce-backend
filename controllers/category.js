@@ -84,7 +84,19 @@ exports.create = (req, res) => {
 };
 
 exports.read = (req, res) => {
-    return res.json(req.category);
+    Category.find({
+        status: 1
+    }).exec((err, category) => {
+        if (err || !category) {
+            return res.status(400).json({
+                error: 'Category does not exist'
+            });
+        }
+        req.category = category;
+        next();
+    });
+    //return res.json(req.category);
+    
 };
 
 exports.update = (req, res) => {
@@ -162,7 +174,6 @@ exports.updateDelete = (req, res) => {
 };
 
 exports.changeStatus = (req, res) => {
-    console.log("==========",req.category)
     const category = req.category;
     category.status = req.body.name;
     category.save((err, data) => {
@@ -177,7 +188,9 @@ exports.changeStatus = (req, res) => {
 
 
 exports.list = (req, res) => {
-    Category.find().exec((err, data) => {
+    Category.find({
+        status: 1
+    }).exec((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
@@ -189,7 +202,9 @@ exports.list = (req, res) => {
 
 
 exports.subcategory = (req, res) => {
-    Category.find().exec((err, data) => {
+    Category.find({
+        status: 1
+    }).exec((err, data) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)

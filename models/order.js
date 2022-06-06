@@ -6,8 +6,9 @@ const CartItemSchema = new mongoose.Schema(
     product: { type: ObjectId, ref: "Product" },
     name: String,
     price: Number,
-    count: Number
-  },
+    quantity: Number,
+    image: String
+  },  
   { timestamps: true }
 );
 
