@@ -1,4 +1,5 @@
 const { json } = require("body-parser");
+const user = require("../models/store/storeUser");
 const StoreSchema = require("../models/store/store");
 const UserRoleinSchema = require("../models/userRole");
 const User = require("../models/store/storeUser");
@@ -16,6 +17,24 @@ const errorFormat = (e) => {
     errors[key] = value;
   });
   return errors;
+};
+
+exports.storeSignin = async (req, res) => {
+  // find the store based on email
+  try {
+      const{email , password} = req.body;
+      if(!email || !password){
+      return res.status(400).json({error:"please fill the data"})
+      }
+      const storeLogin = await user.findOne({email:email ,password:password});
+      if(!storeLogin){
+          res.status(400).json("invalid credentials");
+      } else{
+          res.json("login successfully");
+      }
+  }catch(err){
+      console.log(err)
+  }
 };
 
 exports.addStoreData = async (req, res) => {
@@ -394,7 +413,6 @@ exports.updateStatus = async (req, res) => {
     };
     
     exports.changeStatus =async (req, res) => {
-      console.log("status................",req.params.storeId)
       try{
         var updateData = {
           status : true

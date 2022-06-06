@@ -3,7 +3,7 @@ const router = express.Router();
 const { create, productById, read, update,updateStatus,changeStatus, remove, list, updateDelete } = require('../controllers/specification');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
-const { specificationValidator } = require("../validator");
+const {specificationValidator}  = require("../validator");
 
 router.get('/specification/:productId', read);
 // console.log("router------>",router);

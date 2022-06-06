@@ -34,6 +34,10 @@ const productSchema = new mongoose.Schema(
         manufactures:{
             type: String,
         },
+        store:{
+            type: ObjectId,
+            ref: "Store"
+        },
         category: {
             type: ObjectId,
             ref: "Category",

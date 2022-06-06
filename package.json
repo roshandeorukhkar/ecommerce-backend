@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "supervisor index.js",
     "deploy": "vercel"
   },
   "keywords": [],
@@ -21,6 +21,7 @@
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
+    "express-validation": "^4.1.0",
     "express-validator": "^5.3.1",
     "firebase": "^8.6.8",
     "firebase-admin": "^9.10.0",

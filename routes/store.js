@@ -7,6 +7,9 @@ const { userRoleValidator } =require('../validator');
 const { addStoreData } = require('../controllers/store');
 router.post("/addStoreData",storeValidator, addStoreData);
 
+const { storeSignin } = require("../controllers/store");
+router.post("/storesignin",storeSignin); 
+
 const { storeList } = require("../controllers/store");
 router.get("/getStoreList", storeList);
 

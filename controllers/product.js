@@ -190,6 +190,7 @@ exports.create = async (req, res) => {
         description :req.body.description, 
         discount:0,
         manufactures :req.body.manufactures,
+        store :req.body.storeData,
         name :req.body.name,
         price :req.body.price, 
         quantity :req.body.quantity, 
@@ -198,6 +199,7 @@ exports.create = async (req, res) => {
         type : req.body.type,
         images: imageArray,
     });
+
     const result = await productData.save();
         return res.json({
             data : result,
@@ -225,44 +227,6 @@ exports.remove = (req, res) => {
         });
     });
 };
-
-// exports.update = (req, res) => {
-//     let form = new formidable.IncomingForm();
-//     form.keepExtensions = true;
-//     form.parse(req, (err, fields, files) => {
-//         if (err) {
-//             return res.status(400).json({
-//                 error: 'Image could not be uploaded'
-//             });
-//         }
-
-//         let product = req.product;
-//         product = _.extend(product, fields);
-
-//           // 1kb = 1000
-//         // 1mb = 1000000
-
-//         if (files.photo) {
-//             // console.log("FILES PHOTO: ", files.photo);
-//             if (files.photo.size > 10000) {
-//                 return res.status(400).json({
-//                     error: 'Image should be less than 1mb in size'
-//                 });
-//             }
-//             product.photo.data = fs.readFileSync(files.photo.path);
-//             product.photo.contentType = files.photo.type;
-//         }
-
-//         product.save((err, result) => {
-//             if (err) {
-//                 return res.status(400).json({
-//                     error: errorHandler(err)
-//                 });
-//             }
-//             res.json(result);
-//         });
-//     });
-// };
 
 exports.update = (req, res) => {
     const product = req.product;
