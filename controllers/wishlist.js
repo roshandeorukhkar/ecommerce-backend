@@ -38,37 +38,42 @@ exports.create = (req, res) => {
     });
 };
 
-exports.listOrders = (req, res) => {
-    /* try{
-        const orders =  await Order.aggregate([
+exports.listWishlists = async (req, res, id) => {
+
+    try{
+        //let matchObj = {};
+        //matchObj["_id"] = mongoose.Types.ObjectId(id)
+        const wishlistData =  await Wishlist.aggregate([
+           
             {
                 $lookup : {
-                from : Category.collection.name,
-                localField : "category",
+                from : 'products',
+                localField : "product",
                 foreignField : "_id",
-                as: "category"
+                as: "productDetails"
                 },
             }
         ]);
+        return res.json(wishlistData);
     }catch(e){
-        console.log("error",e);
         return res.status(400).json({
-            error: 'Orders not found'
+            error: 'Wishlist not found'
         })
-    } */
-    Order.find()
+    }
+   
+    /* Wishlist.find()
         // .populate('user', '_id name address')
         // .sort('-created')
         // old
-        .populate('user')
-        .exec((err, orders) => {
+        .populate('product', '_id name')
+        .exec((err, wishlist) => {
             if (err) {
                 return res.status(400).json({
                     error: errorHandler(error)
                 });
             }
-            res.json(orders);
-        });
+            res.json(wishlist);
+        }); */
 };
 
 exports.updateDelete = (req, res) => {
@@ -110,5 +115,18 @@ exports.updateOrderStatus = (req, res) => {
             });
         }
         res.json(order);
+    });
+};
+
+exports.removeFromWishlist = (req, res) => {
+    Wishlist.remove({ _id: req.body.wishlistId }, (err, deleted) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json({
+            message: 'Product has been removed from wishlist successfully.'
+        });
     });
 };
