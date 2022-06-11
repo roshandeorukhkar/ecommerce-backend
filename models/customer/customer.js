@@ -4,6 +4,9 @@ const uuidv1 = require('uuid/v1');
 
 const customerSchema = new mongoose.Schema(
     {
+        customerId:{
+            type : String
+        },
         firstName: {
             type: String,
             trim: true

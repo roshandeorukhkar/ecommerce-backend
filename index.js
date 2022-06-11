@@ -9,6 +9,7 @@ require('dotenv').config();
 // import routes
 const authRoutes = require('./routes/auth');
 const customerRoutes = require('./routes/customer');
+const customerAddressRoute =require('./routes/customerAddress')
 const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
 const braintreeRoutes = require('./routes/braintree');
@@ -67,6 +68,7 @@ app.use('/api', accessModuleRoutes);
 app.use('/api', settingRoutes);
 app.use('/api', taxRoutes);
 app.use('/api', wishlistRoutes);
+app.use('/api', customerAddressRoute)
 
 const port = process.env.PORT || 8000;
 

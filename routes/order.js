@@ -10,9 +10,6 @@ router.post("/order/create/:userId", requireSignin, isAuth, addOrderToUserHistor
 router.get("/order/list/:userId", requireSignin, isAuth, listOrders);
 router.get("/order/status-values/:userId", requireSignin,isAuth,getStatusValues);
 router.put("/order/:orderId/status/:userId", requireSignin, isAuth, updateOrderStatus);
-// router.param("userId", userById);
-// router.param("orderId", orderById);
-// old route is commited
 
 router.get("/order/list/", listOrders);
 router.param("orderId", orderById);
