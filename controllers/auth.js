@@ -180,7 +180,7 @@ exports.requireSignin = expressJwt({
 });
 
 exports.isAuth = (req, res, next) => {
-  let user = req.auth && req.params.userId == req.auth._id;
+  let user = req.auth && req.auth._id;
   if (!user) {
     return res.status(403).json({
       error: "Access denied",
@@ -188,15 +188,6 @@ exports.isAuth = (req, res, next) => {
   }
   next();
 };
-
-// exports.isAdmin = (req, res, next) => {
-//     if (req.profile.role === 0) {
-//         return res.status(403).json({
-//             error: 'Admin resourse! Access denied'
-//         });
-//     }
-//     next();
-// };
 
 /**
  * google login full

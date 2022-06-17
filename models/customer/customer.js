@@ -4,9 +4,6 @@ const uuidv1 = require('uuid/v1');
 
 const customerSchema = new mongoose.Schema(
     {
-        customerId:{
-            type : String
-        },
         firstName: {
             type: String,
             trim: true
@@ -50,13 +47,6 @@ const customerSchema = new mongoose.Schema(
             type: Array,
             default: []
         },
-        address:{
-            type: String
-        },
-        country : String,
-        city : String,
-        state : String,
-        pincode : String,
         date_added: {
             type: Date,
             default : Date.now

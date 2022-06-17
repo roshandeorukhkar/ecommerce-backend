@@ -8,8 +8,12 @@ const customerAddressSchema = new mongoose.Schema(
             type: String
         },
         country : String,
-        city : String,
-        state : String,
+        fname   : String,
+        lname   : String,
+        email   : String,
+        mobile  : String,
+        city    : String,
+        state   : String,
         pincode : String,
         date_added: {
             type: Date,
