@@ -27,6 +27,7 @@ const accessModuleRoutes = require('./routes/accessModule');
 const settingRoutes = require('./routes/settingRoutes');
 const taxRoutes = require('./routes/tax');
 const wishlistRoutes = require('./routes/wishlist');
+const ratinglistRoutes = require('./routes/ratinglist');
 
 // app
 const app = express();
@@ -68,6 +69,8 @@ app.use('/api', accessModuleRoutes);
 app.use('/api', settingRoutes);
 app.use('/api', taxRoutes);
 app.use('/api', wishlistRoutes);
+app.use('/api', ratinglistRoutes);
+
 app.use('/api', customerAddressRoute)
 
 const port = process.env.PORT || 8000;
