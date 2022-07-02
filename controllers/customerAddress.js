@@ -27,11 +27,6 @@ exports.fetchAllAddressById= (req,res) => {
 }
 
 //fetch all data by id
-exports.fetchAllAddressData = (req,res) => {
-  CustomerAddress.find()
-  .then(data => res.json(data))
-},
-
 exports.fetchAddressDataById = (req, res) => { 
   CustomerAddress.findById( req.params.addressId,function (err, data){
     res.send(data);

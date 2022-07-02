@@ -3,11 +3,23 @@ const { ObjectId } = mongoose.Schema;
 
 const CartItemSchema = new mongoose.Schema(
   {
+    user: { type: ObjectId, ref: "Customer" },
     product: { type: ObjectId, ref: "Product" },
-    name: String,
-    price: Number,
     quantity: Number,
-    image: String
+    date_added: {
+      type: Date,
+      default : Date.now
+    },
+    date_modified: {
+        type: Date,
+    },
+    isDelete : {
+        type : Boolean,
+        default : false
+    },
+    deletedAt: {
+        type: Date,
+    }
   },  
   { timestamps: true }
 );
@@ -26,7 +38,6 @@ const OrderSchema = new mongoose.Schema(
       enum: ["Not processed", "Processing", "Shipped", "Delivered", "Cancelled"] // enum means string objects
     },
     updated: Date,
-    //user: { type: ObjectId, ref: "User" }// old
     user: { type: ObjectId, ref: "Customer" },
     deletedAt :{
         type : Date,

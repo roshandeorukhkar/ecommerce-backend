@@ -4,7 +4,6 @@ const {
     addAddress, 
     fetchAllAddressById, 
     removeFromAddressById, 
-    fetchAllAddressData,
     fetchAddressDataById, 
     updateAddress
 } = require('../controllers/customerAddress');

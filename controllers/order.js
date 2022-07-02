@@ -1,10 +1,69 @@
-const { Order, CartItem } = require('../models/order');
+const { Order, CartItem } = require('../models/order'); 
+const  CustomerAddress  = require('../models/customer/customerAddress')
+const products = require('../models/product/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 // sendgrid for email npm i @sendgrid/mail
 const { ObjectId } = require('mongodb');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey('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');
 
+exports.cartList = (req, res) => {
+    const cartData    =    new CartItem({
+      user        : req.body.data.user,
+      product     : req.body.data.product,
+      quantity    : req.body.data.quantity,
+    })
+    cartData.save();
+    res.json(cartData);
+};
+
+//fetch data by id
+exports.getCartList= async(req,res) => {
+    const cartData =  await CartItem.aggregate([
+        {
+            $match : {
+            user: ObjectId(req.params.userId)
+            }
+        },
+        {
+            $lookup : {
+            from : 'products',
+            localField : "product",
+            foreignField : "_id",
+            as: "productDetails"
+            },
+        }
+    ]);
+    return res.json(cartData);
+}
+
+//delete data
+exports.removeCartDataById = (req, res) => {
+    CartItem.deleteOne({userId:req.params.userId, _id: req.params.id }, (err, deleted) => {
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json({
+            message: 'Item has been deleted successfully.'
+        });
+    });
+  };
+
+//remove cart item in cart list..........working on
+exports.removeCartList = (req, res) => {
+CartItem.remove({userId:req.params.userId}, (err, deleted) => {
+    if (err) {
+        return res.status(400).json({
+            error: errorHandler(err)
+        });
+    }
+    res.json({
+        message: 'cart is empty.'
+    });
+});
+};
 exports.orderById = (req, res, next, id) => {
     Order.findById(id)
         .populate('products.product', 'name price')
@@ -24,88 +83,43 @@ exports.read = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    console.log("I am in order create-----")
     req.body.order.user = req.params.userId;
     const order = new Order(req.body.order);
-    console.log("data---", order, req.body.order)
     order.save((error, data) => {
         if (error) {
             return res.status(400).json({
                 error: errorHandler(error)
             });
         }
-        // send email alert to admin
-        // order.address
-        // order.products.length
-        // order.amount
-        // const emailData = {
-        //     to: 'kaloraat@gmail.com',
-        //     from: 'noreply@ecommerce.com',
-        //     subject: `A new order is received`,
-        //     html: `
-        //     <p>Customer name:</p>
-        //     <p>Total products: ${order.products.length}</p>
-        //     <p>Total cost: ${order.amount}</p>
-        //     <p>Login to dashboard to the order in detail.</p>
-        // `
-        // };
-        // sgMail.send(emailData);
         res.json(data);
     });
 };
 
 exports.listOrders = async (req, res) => {
-    /* try{
-        const orders =  await Order.aggregate([
-            {
-                $lookup : {
-                from : Category.collection.name,
-                localField : "category",
-                foreignField : "_id",
-                as: "category"
-                },
-            }
-        ]);
-    }catch(e){
-        console.log("error",e);
-        return res.status(400).json({
-            error: 'Orders not found'
-        })
-    } */
-
     const orderData = await Order.aggregate([
         {
             $match : {
-                user: ObjectId(req.auth._id)
+                user: ObjectId(req.params.userId)
             }
-         }//,
-        
-        // { 
-        //     $lookup : {
-        //         from : "products",
-        //         localField : "products._id",
-        //         foreignField : "_id",
-        //         as: "productData"
-        //     }
-        // }
-        
+        },
+        { 
+            $lookup : {
+                from : products.collection.name,
+                localField : "products.product",
+                foreignField : "_id",
+                as: "productData"
+            }
+        },
+        { 
+            $lookup : {
+                from: CustomerAddress.collection.name,
+                localField : "addressId",
+                foreignField : "_id",
+                as: "adrressData"
+            }
+        }  
     ]);
-    console.log("orderData---", orderData)
     return res.json(orderData);
-
-    // Order.find({
-    //     user: req.auth._id
-    // })
-    // .sort('-created')
-    // .populate('user')
-    // .exec((err, orders) => {
-    //     if (err) {
-    //         return res.status(400).json({
-    //             error: errorHandler(error)
-    //         });
-    //     }
-    //     res.json(orders);
-    // });
 };
 
 exports.updateDelete = (req, res) => {
@@ -140,7 +154,7 @@ exports.updateOrder = (req, res) => {
 };
 
 exports.updateOrderStatus = (req, res) => {
-    Order.update({ _id: req.body.orderId }, { $set: { status: req.body.status } }, (err, order) => {
+    Order.updateOne({ _id: req.body.orderId }, { $set: { status: req.body.status } }, (err, order) => {
         if (err) {
             return res.status(400).json({
                 error: errorHandler(err)
