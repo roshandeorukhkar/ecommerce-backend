@@ -9,9 +9,9 @@ sgMail.setApiKey('SG.pUkng32NQseUXSMo9gvo7g.-mkH0C02l7egWVyP2RKxmVEyYpC6frbxG8CF
 
 exports.cartList = (req, res) => {
     const cartData    =    new CartItem({
-      user        : req.body.data.user,
-      product     : req.body.data.product,
-      quantity    : req.body.data.quantity,
+      user        : req.body.user,
+      product     : req.body.product,
+      quantity    : req.body.quantity,
     })
     cartData.save();
     res.json(cartData);
@@ -53,16 +53,16 @@ exports.removeCartDataById = (req, res) => {
 
 //remove cart item in cart list..........working on
 exports.removeCartList = (req, res) => {
-CartItem.remove({userId:req.params.userId}, (err, deleted) => {
-    if (err) {
-        return res.status(400).json({
-            error: errorHandler(err)
+    CartItem.remove({userId:req.params.userId}, (err, deleted) => {``
+        if (err) {
+            return res.status(400).json({
+                error: errorHandler(err)
+            });
+        }
+        res.json({
+            message: 'cart is empty.'
         });
-    }
-    res.json({
-        message: 'cart is empty.'
     });
-});
 };
 exports.orderById = (req, res, next, id) => {
     Order.findById(id)

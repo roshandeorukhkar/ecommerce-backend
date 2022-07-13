@@ -23,10 +23,7 @@ exports.read = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    console.log("I am in wishlist create-----"+req.params.userId)
-    
-    //req.body.wishlist.product = '111';
-    req.body.wishlist.user = req.params.userId;
+    req.body.user = req.params.userId;
     const wishlist = new Wishlist(req.body.wishlist);
     wishlist.save((error, data) => {
         if (error) {
@@ -39,12 +36,8 @@ exports.create = (req, res) => {
 };
 
 exports.listWishlists = async (req, res, id) => {
-
     try{
-        //let matchObj = {};
-        //matchObj["_id"] = mongoose.Types.ObjectId(id)
         const wishlistData =  await Wishlist.aggregate([
-           
             {
                 $lookup : {
                 from : 'products',
@@ -60,20 +53,6 @@ exports.listWishlists = async (req, res, id) => {
             error: 'Wishlist not found'
         })
     }
-   
-    /* Wishlist.find()
-        // .populate('user', '_id name address')
-        // .sort('-created')
-        // old
-        .populate('product', '_id name')
-        .exec((err, wishlist) => {
-            if (err) {
-                return res.status(400).json({
-                    error: errorHandler(error)
-                });
-            }
-            res.json(wishlist);
-        }); */
 };
 
 exports.updateDelete = (req, res) => {

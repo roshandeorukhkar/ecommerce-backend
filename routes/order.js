@@ -8,13 +8,13 @@ const { read, updateOrder, create, listOrders, getStatusValues, orderById, updat
 
 router.post("/cart/create", cartList);
 router.get("/cart/list/:userId",  getCartList);
-router.delete("/cart/delete/:userId",  removeCartList);// for empty cart when we order successfully
+router.delete("/cart/remove/:userId", removeCartList);// for empty cart when we order successfully
 router.delete("/cart/delete/:userId/:id", removeCartDataById);// delete cart item
 
-router.post("/order/create/:userId", requireSignin, isAuth, addOrderToUserHistory, decreaseQuantity, create );
+router.post("/order/create/:userId", addOrderToUserHistory, decreaseQuantity, create );
 router.get("/order/list/:userId",listOrders);
-router.get("/order/status-values/:userId", requireSignin,isAuth,getStatusValues);
-router.put("/order/:orderId/status/:userId", requireSignin, isAuth, updateOrderStatus);
+router.get("/order/status-values/:userId", getStatusValues);
+router.put("/order/:orderId/status/:userId", updateOrderStatus);
 
 router.get("/order/list/", listOrders);
 router.param("orderId", orderById);

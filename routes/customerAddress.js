@@ -11,7 +11,7 @@ const { requireSignin, isAuth } = require('../controllers/auth');
 
 router.post("/customeraddress/add", addAddress);
 router.get("/customeraddress/read/:id", fetchAllAddressById);
-router.get("/customeraddress/readdata/:addressId", requireSignin, isAuth, fetchAddressDataById);
+router.get("/customeraddress/readdata/:addressId", fetchAddressDataById);
 router.post("/customeraddress/update/:id", updateAddress);
 router.delete("/customeraddress/delete/:addressId", removeFromAddressById);
 
