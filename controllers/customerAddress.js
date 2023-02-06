@@ -6,6 +6,7 @@ exports.addAddress = (req, res) => {
   const addressData    =    new CustomerAddress({
     customerId       : req.body.customerId,
     address          : req.body.address,
+    nickname         : req.body.nickname,
     fname            : req.body.fname,
     lname            : req.body.lname,
     email            : req.body.email,

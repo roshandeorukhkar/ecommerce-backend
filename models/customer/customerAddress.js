@@ -8,6 +8,7 @@ const customerAddressSchema = new mongoose.Schema(
             type: String
         },
         country : String,
+        nickname: String,
         fname   : String,
         lname   : String,
         email   : String,
